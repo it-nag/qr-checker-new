@@ -55,7 +55,7 @@ class ScanController extends Controller
             m.buyer,
             m.styleno,
             m.season,
-            mi.color,
+            m.color,
             m.size,
             group_concat(distinct(lot)) lot,
             concat(lebar_marker , ' ', unit_lebar_marker) width,

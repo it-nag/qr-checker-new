@@ -12,7 +12,7 @@
 @endsection
 
 @section('content')
-    <form id="form" name='form'>
+    {{-- <form id="form" name='form'> --}}
         <div class="card card-primary collapsed-card" id = "scan-qr-header">
             <div class="card-header" data-card-widget="collapse">
                 <h5 class="card-title fw-bold mb-0"><i class="fas fa-hand-pointer"></i> Scan QR</h5>
@@ -36,7 +36,7 @@
                     <div class="col-md-8">
                         <center>
                             {{-- <div id="reader_s"></div> --}}
-                            <video id="scan-qr-nimic" style="max-width: 100%;max-height: 100%;"></video>
+                            <video id="scan-qr-nimic" style="max-width: 100%;max-height: 300px;"></video>
                         </center>
                     </div>
                     <div class="col-md-2">
@@ -44,7 +44,7 @@
                 </div>
             </div>
         </div>
-    </form>
+    {{-- </form> --}}
 
     <div class="card card-primary">
         <div class="card-header">
@@ -224,7 +224,7 @@
         function scanqr() {
             document.getElementById("loading").classList.remove("d-none");
 
-            let txtqr = document.form.txtqr.value;
+            let txtqr = document.getElementById("txtqr").value;
             if (txtqr == '') {
                 document.getElementById("loading").classList.add("d-none");
 
