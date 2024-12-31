@@ -69,10 +69,10 @@ class ScanController extends Controller
             where id_year_sequence = '$qr'
             ) a
             inner join master_sb_ws m on a.so_det_id = m.id_so_det
-            inner join form_cut_input f on a.form_cut_id = f.id
-            inner join marker_input mi on f.id_marker = mi.kode
-            inner join form_cut_input_detail fd on f.no_form = fd.no_form_cut_input
-            inner join users u on f.no_meja = u.id
+            left join form_cut_input f on a.form_cut_id = f.id
+            left join marker_input mi on f.id_marker = mi.kode
+            left join form_cut_input_detail fd on f.no_form = fd.no_form_cut_input
+            left join users u on f.no_meja = u.id
             group by fd.id_item");
 
         return json_encode($data_master_trans ? $data_master_trans[0] : '-');

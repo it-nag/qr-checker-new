@@ -246,6 +246,8 @@
                 },
                 dataType: 'json',
                 success: function(response) {
+                    console.log(response);
+
                     document.getElementById("loading").classList.add("d-none");
 
                     console.log(response);
@@ -289,6 +291,8 @@
                 },
                 dataType: 'json',
                 success: function(response) {
+                    console.log("get data", response);
+
                     document.getElementById('txtbuyer').value = response.buyer;
                     document.getElementById('txtstyle').value = response.styleno;
                     document.getElementById('txtseason').value = response.season;
