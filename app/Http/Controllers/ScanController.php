@@ -53,6 +53,7 @@ class ScanController extends Controller
         $data_master_trans = DB::select("
             select
             m.buyer,
+            m.ws,
             m.styleno,
             m.season,
             m.color,
@@ -89,20 +90,23 @@ class ScanController extends Controller
         }
 
         $data_sb = DB::connection('mysql_sb')->select("
-            select
-            a.sewing_line,
-            b.packing_line,
-            master_plan_id
-            from (
-            select kode_numbering,u.name sewing_line, master_plan_id
-            from output_rfts o
-            left join user_sb_wip u on o.created_by = u.id
-            where kode_numbering = '$qr'
-            ) a
-            left join (
-            select kode_numbering, created_by packing_line from output_rfts_packing p
-            where kode_numbering = '$qr'
-            ) b on a.kode_numbering = b.kode_numbering
+        select
+        a.sewing_line,
+        b.packing_line,
+        master_plan_id,
+        tgl_plan,
+        DATE_FORMAT(tgl_plan, '%d-%m-%Y') AS tgl_plan_fix
+        from (
+        select kode_numbering,u.name sewing_line, master_plan_id
+        from output_rfts o
+        left join user_sb_wip u on o.created_by = u.id
+        where kode_numbering = '$qr'
+        ) a
+        left join (
+        select kode_numbering, created_by packing_line from output_rfts_packing p
+        where kode_numbering = '$qr'
+        ) b on a.kode_numbering = b.kode_numbering
+        inner join master_plan mp on a.master_plan_id = mp.id
             ");
         return json_encode($data_sb ? $data_sb[0] : '-');
     }

@@ -60,14 +60,20 @@
                 </div>
                 <div class="col-6 col-md-6">
                     <div class="mb-3">
-                        <label class="form-label"><small><b>Style</b></small></label>
-                        <input type="text" class="form-control form-control-sm" name="txtstyle" id="txtstyle" readonly>
+                        <label class="form-label"><small><b>Season</b></small></label>
+                        <input type="text" class="form-control form-control-sm" name="txtseason" id="txtseason" readonly>
                     </div>
                 </div>
                 <div class="col-6 col-md-6">
                     <div class="mb-3">
-                        <label class="form-label"><small><b>Season</b></small></label>
-                        <input type="text" class="form-control form-control-sm" name="txtseason" id="txtseason" readonly>
+                        <label class="form-label"><small><b>Worksheet</b></small></label>
+                        <input type="text" class="form-control form-control-sm" name="txtws" id="txtws" readonly>
+                    </div>
+                </div>
+                <div class="col-6 col-md-6">
+                    <div class="mb-3">
+                        <label class="form-label"><small><b>Style</b></small></label>
+                        <input type="text" class="form-control form-control-sm" name="txtstyle" id="txtstyle" readonly>
                     </div>
                 </div>
                 <div class="col-6 col-md-6">
@@ -97,6 +103,13 @@
                 </div>
                 <div class="col-6 col-md-6">
                     <div class="mb-3">
+                        <label class="form-label"><small><b>Tgl Plan Sewing</b></small></label>
+                        <input type="text" class="form-control form-control-sm" name="txttgl_plan_sew"
+                            id="txttgl_plan_sew" readonly>
+                    </div>
+                </div>
+                <div class="col-6 col-md-6">
+                    <div class="mb-3">
                         <label class="form-label"><small><b>No Form</b></small></label>
                         <input type="text" class="form-control form-control-sm" name="txtno_form" id="txtno_form"
                             readonly>
@@ -111,7 +124,7 @@
                 </div>
                 <div class="col-6 col-md-6">
                     <div class="mb-3">
-                        <label class="form-label"><small><b>Packing</b></small></label>
+                        <label class="form-label"><small><b>Packing Line</b></small></label>
                         <input type="text" class="form-control form-control-sm" name="txtpack" id="txtpack"
                             readonly>
                     </div>
@@ -149,6 +162,8 @@
                 $("#txtno_form").val('');
                 $("#txtsew_line").val('');
                 $("#txtpack").val('');
+                $("#txtws").val('');
+                $("#txttgl_plan_sew").val('');
                 scanqr();
             })
         })
@@ -254,9 +269,11 @@
                     if (response != '-') {
                         document.getElementById('txtsew_line').value = response.sewing_line;
                         document.getElementById('txtpack').value = response.packing_line;
+                        document.getElementById('txttgl_plan_sew').value = response.tgl_plan_fix;
                     } else {
                         document.getElementById('txtsew_line').value = response;
                         document.getElementById('txtpack').value = response;
+                        document.getElementById('txttgl_plan_sew').value = response.tgl_plan_fix;
                     }
 
                     $('#scan-qr-header').CardWidget('toggle')
@@ -301,6 +318,7 @@
                     document.getElementById('txtcut_plan').value = response.kode;
                     document.getElementById('txtno_form').value = response.no_form;
                     document.getElementById('txtdest').value = response.dest;
+                    document.getElementById('txtws').value = response.ws;
                     // setTimeout(() => {
                     //     // initScan();
                     // }, 1000);
