@@ -13,7 +13,7 @@
 
 @section('content')
     {{-- <form id="form" name='form'> --}}
-        <div class="card card-primary collapsed-card" id = "scan-qr-header">
+        <div class="card card-sb collapsed-card" id = "scan-qr-header">
             <div class="card-header" data-card-widget="collapse">
                 <h5 class="card-title fw-bold mb-0"><i class="fas fa-hand-pointer"></i> Scan QR</h5>
             </div>
@@ -24,7 +24,7 @@
                             <label class="form-label label-input"><small><b>QR Code</b></small></label>
                             <div class="input-group">
                                 <input type="text" class="form-control form-control-sm border-input" name="txtqr" id="txtqr" autocomplete="off" enterkeyhint="go" onkeyup="if (event.keyCode == 13) document.getElementById('scan_qr').click()" autofocus>
-                                {{-- <input type="button" class="btn btn-sm btn-primary" value="Scan Line" /> --}}
+                                {{-- <input type="button" class="btn btn-sm btn-sb" value="Scan Line" /> --}}
                                 {{-- style="display: none;" --}}
                                 <button class="btn btn-sm btn-primary" type="button" id="scan_qr" onclick="scanqr()">Scan</button>
                             </div>
@@ -46,7 +46,7 @@
         </div>
     {{-- </form> --}}
 
-    <div class="card card-primary">
+    <div class="card card-sb">
         <div class="card-header">
             <h5 class="card-title fw-bold mb-0"><i class="fas fa-list"></i> Item Detail</h5>
         </div>

@@ -1,9 +1,9 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container">
         <a class="navbar-brand" href="#">
-            <div class="d-flex align-items-center">
-                <img class="img-fluid" width="200" src="{{ asset('img/logo-icon.png') }}" alt="">
-                <span class="badge text-bg-primary">PRODUCTION QR</span>
+            <div class="d-flex align-items-center gap-3">
+                <img class="img-fluid" width="150" src="{{ asset('img/logo-icon.png') }}" alt="">
+                <span class="badge text-bg-sb mt-3">PRODUCTION QR</span>
             </div>
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
