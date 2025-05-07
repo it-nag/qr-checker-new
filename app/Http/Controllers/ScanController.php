@@ -90,24 +90,54 @@ class ScanController extends Controller
         }
 
         $data_sb = DB::connection('mysql_sb')->select("
-        select
-        a.sewing_line,
-        b.packing_line,
-        master_plan_id,
-        tgl_plan,
-        DATE_FORMAT(tgl_plan, '%d-%m-%Y') AS tgl_plan_fix
-        from (
-        select kode_numbering,u.name sewing_line, master_plan_id
-        from output_rfts o
-        left join user_sb_wip u on o.created_by = u.id
-        where kode_numbering = '$qr'
-        ) a
-        left join (
-        select kode_numbering, created_by packing_line from output_rfts_packing p
-        where kode_numbering = '$qr'
-        ) b on a.kode_numbering = b.kode_numbering
-        inner join master_plan mp on a.master_plan_id = mp.id
-            ");
+            select
+            a.sewing_line,
+            a.defect_status,
+            a.defect_type,
+            a.allocation as defect_allocation,
+            a.external,
+            a.external_status,
+            a.external_in,
+            a.external_out,
+            b.packing_line,
+            b.packing_defect_status,
+            b.packing_defect_type,
+            b.packing_allocation as packing_defect_allocation,
+            b.packing_external,
+            b.packing_external_status,
+            b.packing_external_in,
+            b.packing_external_out,
+            master_plan_id,
+            tgl_plan,
+            DATE_FORMAT(tgl_plan, '%d-%m-%Y') AS tgl_plan_fix
+            from (
+                select o.kode_numbering,u.name sewing_line, '-' defect_status, '-' defect_type, '-' allocation, master_plan_id, '-' as external, '-' as external_status, '-' as external_in, '-' as external_out
+                from output_rfts o
+                left join user_sb_wip u on o.created_by = u.id
+                where o.kode_numbering = '".$qr."'
+                union
+                select o.kode_numbering,u.name sewing_line, o.defect_status, dt.defect_type, dt.allocation, master_plan_id, dio.type as external, dio.status as external_status, dio.created_at as external_in, dio.reworked_at as external_out
+                from output_defects o
+                left join user_sb_wip u on o.created_by = u.id
+                left join output_defect_types dt on dt.id = o.defect_type_id
+                left join output_defect_in_out dio on dio.defect_id = o.id and dio.output_type = 'qc'
+                where o.kode_numbering = '".$qr."'
+            ) a
+            left join (
+                select kode_numbering,u.name packing_line, '-' packing_defect_status, '-' packing_defect_type, '-' packing_allocation, '-' as packing_external, '-' as packing_external_status, '-' as packing_external_in, '-' as packing_external_out
+                from output_rfts_packing o
+                left join user_sb_wip u on o.created_by = u.id
+                where kode_numbering = '".$qr."'
+                union
+                select o.kode_numbering,u.name packing_line, o.defect_status packing_defect_status, dt.defect_type packing_defect_type, dt.allocation packing_allocation, dio.type as packing_external, dio.status as packing_external_status, dio.created_at as packing_external_in, dio.reworked_at as packing_external_out
+                from output_defects_packing o
+                left join user_sb_wip u on o.created_by = u.id
+                left join output_defect_types dt on dt.id = o.defect_type_id
+                left join output_defect_in_out dio on dio.defect_id = o.id and dio.output_type = 'packing'
+                where o.kode_numbering = '".$qr."'
+            ) b on a.kode_numbering = b.kode_numbering
+            inner join master_plan mp on a.master_plan_id = mp.id
+        ");
         return json_encode($data_sb ? $data_sb[0] : '-');
     }
 

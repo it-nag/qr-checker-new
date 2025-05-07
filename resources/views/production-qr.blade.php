@@ -52,7 +52,7 @@
         </div>
         <div class="card-body">
             <div class="row justify-content-center align-items-end">
-                <div class="col-6 col-md-6">
+                <div class="col-12 col-md-12">
                     <div class="mb-3">
                         <label class="form-label"><small><b>Buyer</b></small></label>
                         <input type="text" class="form-control form-control-sm" name="txtbuyer" id="txtbuyer" readonly>
@@ -94,6 +94,8 @@
                         <input type="text" class="form-control form-control-sm" name="txtdest" id="txtdest" readonly>
                     </div>
                 </div>
+                <hr style="border-top: 1px solid rgba(109, 109, 109, 1);">
+                <h5 class="text-sb fw-bold">Cutting</h5>
                 <div class="col-6 col-md-6">
                     <div class="mb-3">
                         <label class="form-label"><small><b>Cut Plan</b></small></label>
@@ -103,30 +105,132 @@
                 </div>
                 <div class="col-6 col-md-6">
                     <div class="mb-3">
-                        <label class="form-label"><small><b>Tgl Plan Sewing</b></small></label>
-                        <input type="text" class="form-control form-control-sm" name="txttgl_plan_sew"
-                            id="txttgl_plan_sew" readonly>
-                    </div>
-                </div>
-                <div class="col-6 col-md-6">
-                    <div class="mb-3">
                         <label class="form-label"><small><b>No Form</b></small></label>
                         <input type="text" class="form-control form-control-sm" name="txtno_form" id="txtno_form"
                             readonly>
                     </div>
                 </div>
-                <div class="col-6 col-md-6">
+                <hr style="border-top: 1px solid rgba(109, 109, 109, 1);">
+                <h5 class="text-sb fw-bold">QC</h5>
+                <div class="col-4 col-md-4">
                     <div class="mb-3">
-                        <label class="form-label"><small><b>Sewing Line</b></small></label>
-                        <input type="text" class="form-control form-control-sm" name="txtsew_line" id="txtsew_line"
-                            readonly>
+                        <label class="form-label"><small><b>Tgl Plan Sewing</b></small></label>
+                        <input type="text" class="form-control form-control-sm" name="txttgl_plan_sew" id="txttgl_plan_sew" readonly>
                     </div>
                 </div>
-                <div class="col-6 col-md-6">
+                <div class="col-4 col-md-4">
+                    <div class="mb-3">
+                        <label class="form-label"><small><b>Sewing Line</b></small></label>
+                        <input type="text" class="form-control form-control-sm" name="txtsew_line" id="txtsew_line" readonly>
+                    </div>
+                </div>
+                <div class="col-4 col-md-4">
                     <div class="mb-3">
                         <label class="form-label"><small><b>Packing Line</b></small></label>
                         <input type="text" class="form-control form-control-sm" name="txtpack" id="txtpack"
                             readonly>
+                    </div>
+                </div>
+                <hr style="border-top: 1px solid rgba(109, 109, 109, 1);">
+                <div class="col-md-12" id="defect-output">
+                    <h5 class="text-sb fw-bold">Defect QC</h5>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="mb-3">
+                                <label class="form-label"><small><b>Status Defect</b></small></label>
+                                <input type="text" class="form-control form-control-sm" name="defect_status" id="defect_status" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="mb-3">
+                                <label class="form-label"><small><b>Jenis Defect</b></small></label>
+                                <input type="text" class="form-control form-control-sm" name="defect_type" id="defect_type" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="mb-3">
+                                <label class="form-label"><small><b>Alokasi</b></small></label>
+                                <input type="text" class="form-control form-control-sm" name="defect_allocation" id="defect_allocation" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <h5 class="text-sb-secondary">External</h5>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="mb-3">
+                                <label class="form-label"><small><b>Defect External</b></small></label>
+                                <input type="text" class="form-control form-control-sm" name="external" id="external" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="mb-3">
+                                <label class="form-label"><small><b>Defect External Status</b></small></label>
+                                <input type="text" class="form-control form-control-sm" name="external_status" id="external_status" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="mb-3">
+                                <label class="form-label"><small><b>Defect External IN</b></small></label>
+                                <input type="text" class="form-control form-control-sm" name="external_in" id="external_in" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="mb-3">
+                                <label class="form-label"><small><b>Defect External OUT</b></small></label>
+                                <input type="text" class="form-control form-control-sm" name="external_out" id="external_out" readonly>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr style="border-top: 1px solid rgba(109, 109, 109, 1);">
+                <div class="col-md-12" id="defect-output">
+                    <h5 class="text-sb fw-bold">Defect Packing</h5>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="mb-3">
+                                <label class="form-label"><small><b>Status Defect</b></small></label>
+                                <input type="text" class="form-control form-control-sm" name="packing_defect_status" id="packing_defect_status" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="mb-3">
+                                <label class="form-label"><small><b>Jenis Defect</b></small></label>
+                                <input type="text" class="form-control form-control-sm" name="packing_defect_type" id="packing_defect_type" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="mb-3">
+                                <label class="form-label"><small><b>Alokasi</b></small></label>
+                                <input type="text" class="form-control form-control-sm" name="packing_defect_allocation" id="packing_defect_allocation" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <h5 class="text-sb-secondary">External</h5>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="mb-3">
+                                <label class="form-label"><small><b>Packing Defect External</b></small></label>
+                                <input type="text" class="form-control form-control-sm" name="packing_external" id="packing_external" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="mb-3">
+                                <label class="form-label"><small><b>Packing Defect External Status</b></small></label>
+                                <input type="text" class="form-control form-control-sm" name="packing_external_status" id="packing_external_status" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="mb-3">
+                                <label class="form-label"><small><b>Packing Defect External IN</b></small></label>
+                                <input type="text" class="form-control form-control-sm" name="packing_external_in" id="packing_external_in" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="mb-3">
+                                <label class="form-label"><small><b>Packing Defect External OUT</b></small></label>
+                                <input type="text" class="form-control form-control-sm" name="packing_external_out" id="packing_external_out" readonly>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="col-8">
@@ -270,10 +374,41 @@
                         document.getElementById('txtsew_line').value = response.sewing_line;
                         document.getElementById('txtpack').value = response.packing_line;
                         document.getElementById('txttgl_plan_sew').value = response.tgl_plan_fix;
+
+                        document.getElementById('defect_status').value = response.defect_status;
+                        document.getElementById('defect_type').value = response.defect_type;
+                        document.getElementById('defect_allocation').value = response.defect_allocation;
+                        document.getElementById('external').value = response.external;
+                        document.getElementById('external_status').value = response.external_status;
+                        document.getElementById('external_in').value = response.external_in;
+                        document.getElementById('external_out').value = response.external_out;
+
+                        document.getElementById('packing_defect_status').value = response.packing_defect_status;
+                        document.getElementById('packing_defect_type').value = response.packing_defect_type;
+                        document.getElementById('packing_defect_allocation').value = response.packing_defect_allocation;
+                        document.getElementById('packing_external').value = response.packing_external;
+                        document.getElementById('packing_external_status').value = response.packing_external_status;
+                        document.getElementById('packing_external_in').value = response.packing_external_in;
+                        document.getElementById('packing_external_out').value = response.packing_external_out;
                     } else {
                         document.getElementById('txtsew_line').value = response;
                         document.getElementById('txtpack').value = response;
-                        document.getElementById('txttgl_plan_sew').value = response.tgl_plan_fix;
+
+                        document.getElementById('defect_status').value = response.defect_status;
+                        document.getElementById('defect_type').value = response.defect_type;
+                        document.getElementById('defect_allocation').value = response.defect_allocation;
+                        document.getElementById('external').value = response.external;
+                        document.getElementById('external_status').value = response.external_status;
+                        document.getElementById('external_in').value = response.external_in;
+                        document.getElementById('external_out').value = response.external_out;
+
+                        document.getElementById('packing_defect_status').value = response.packing_defect_status;
+                        document.getElementById('packing_defect_type').value = response.packing_defect_type;
+                        document.getElementById('packing_defect_allocation').value = response.packing_defect_allocation;
+                        document.getElementById('packing_external').value = response.packing_external;
+                        document.getElementById('packing_external_status').value = response.packing_external_status;
+                        document.getElementById('packing_external_in').value = response.packing_external_in;
+                        document.getElementById('packing_external_out').value = response.packing_external_out;
                     }
 
                     $('#scan-qr-header').CardWidget('toggle')
