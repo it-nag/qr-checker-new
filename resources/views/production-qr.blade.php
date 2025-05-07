@@ -51,6 +51,7 @@
             <h5 class="card-title fw-bold mb-0"><i class="fas fa-list"></i> Item Detail</h5>
         </div>
         <div class="card-body">
+            <h3 class="text-sb fw-bold" id="label_kode_numbering">Label Kode Numbering</h3>
             <div class="row justify-content-center align-items-end">
                 <div class="col-12 col-md-12">
                     <div class="mb-3">
@@ -371,6 +372,8 @@
 
                     console.log(response);
                     if (response != '-') {
+                        document.getElementById('label_kode_numbering').innerHTML = "Kode Label : "+txtqr;
+
                         document.getElementById('txtsew_line').value = response.sewing_line;
                         document.getElementById('txtpack').value = response.packing_line;
                         document.getElementById('txttgl_plan_sew').value = response.tgl_plan_fix;
