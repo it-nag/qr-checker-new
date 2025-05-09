@@ -23,5 +23,6 @@ Route::controller(ScanController::class)->prefix("scan")->group(function () {
     Route::get('/scan-item', 'scanItem')->name('scan-item');
     Route::get('/getdataqr', 'getdataqr')->name('getdataqr');
     Route::get('/getdataqr_sb', 'getdataqr_sb')->name('getdataqr_sb');
+    Route::get('/getdataqr_defect', 'getdataqr_defect')->name('getdataqr_defect');
     Route::get('/getdataqr_gambar', 'getdataqr_gambar')->name('getdataqr_gambar');
 });

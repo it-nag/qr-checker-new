@@ -112,30 +112,47 @@
                     </div>
                 </div>
                 <hr style="border-top: 1px solid rgba(109, 109, 109, 1);">
-                <h5 class="text-sb fw-bold">QC</h5>
-                <div class="col-4 col-md-4">
+                <h5 class="text-sb fw-bold">Output</h5>
+                <div class="col-12 col-md-12">
                     <div class="mb-3">
                         <label class="form-label"><small><b>Tgl Plan Sewing</b></small></label>
                         <input type="text" class="form-control form-control-sm" name="txttgl_plan_sew" id="txttgl_plan_sew" readonly>
                     </div>
                 </div>
-                <div class="col-4 col-md-4">
+                <div class="col-6 col-md-6">
                     <div class="mb-3">
                         <label class="form-label"><small><b>Sewing Line</b></small></label>
                         <input type="text" class="form-control form-control-sm" name="txtsew_line" id="txtsew_line" readonly>
                     </div>
                 </div>
-                <div class="col-4 col-md-4">
+                <div class="col-6 col-md-6">
+                    <div class="mb-3">
+                        <label class="form-label"><small><b>Sewing In</b></small></label>
+                        <input type="text" class="form-control form-control-sm" name="sew_in" id="sew_in" readonly>
+                    </div>
+                </div>
+                <div class="col-6 col-md-6">
                     <div class="mb-3">
                         <label class="form-label"><small><b>Packing Line</b></small></label>
-                        <input type="text" class="form-control form-control-sm" name="txtpack" id="txtpack"
-                            readonly>
+                        <input type="text" class="form-control form-control-sm" name="txtpack" id="txtpack" readonly>
+                    </div>
+                </div>
+                <div class="col-6 col-md-6">
+                    <div class="mb-3">
+                        <label class="form-label"><small><b>Packing In</b></small></label>
+                        <input type="text" class="form-control form-control-sm" name="pack_in" id="pack_in" readonly>
                     </div>
                 </div>
                 <hr style="border-top: 1px solid rgba(109, 109, 109, 1);">
                 <div class="col-md-12" id="defect-output">
                     <h5 class="text-sb fw-bold">Defect QC</h5>
                     <div class="row">
+                        <div class="col-3 col-md-3">
+                            <div class="mb-3">
+                                <label class="form-label"><small><b>Defect Sewing Line</b></small></label>
+                                <input type="text" class="form-control form-control-sm" name="defect_line" id="defect_line" readonly>
+                            </div>
+                        </div>
                         <div class="col-md-3">
                             <div class="mb-3">
                                 <label class="form-label"><small><b>Status Defect</b></small></label>
@@ -152,6 +169,18 @@
                             <div class="mb-3">
                                 <label class="form-label"><small><b>Alokasi</b></small></label>
                                 <input type="text" class="form-control form-control-sm" name="defect_allocation" id="defect_allocation" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="mb-3">
+                                <label class="form-label"><small><b>Defect In</b></small></label>
+                                <input type="text" class="form-control form-control-sm" name="defect_in" id="defect_in" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="mb-3">
+                                <label class="form-label"><small><b>Defect Out</b></small></label>
+                                <input type="text" class="form-control form-control-sm" name="defect_out" id="defect_out" readonly>
                             </div>
                         </div>
                     </div>
@@ -187,6 +216,12 @@
                 <div class="col-md-12" id="defect-output">
                     <h5 class="text-sb fw-bold">Defect Packing</h5>
                     <div class="row">
+                        <div class="col-3 col-md-3">
+                            <div class="mb-3">
+                                <label class="form-label"><small><b>Defect Packing Line</b></small></label>
+                                <input type="text" class="form-control form-control-sm" name="packing_defect_line" id="packing_defect_line" readonly>
+                            </div>
+                        </div>
                         <div class="col-md-3">
                             <div class="mb-3">
                                 <label class="form-label"><small><b>Status Defect</b></small></label>
@@ -203,6 +238,18 @@
                             <div class="mb-3">
                                 <label class="form-label"><small><b>Alokasi</b></small></label>
                                 <input type="text" class="form-control form-control-sm" name="packing_defect_allocation" id="packing_defect_allocation" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="mb-3">
+                                <label class="form-label"><small><b>Defect Packing In</b></small></label>
+                                <input type="text" class="form-control form-control-sm" name="packing_defect_in" id="packing_defect_in" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="mb-3">
+                                <label class="form-label"><small><b>Defect Packing Out</b></small></label>
+                                <input type="text" class="form-control form-control-sm" name="packing_defect_out" id="packing_defect_out" readonly>
                             </div>
                         </div>
                     </div>
@@ -269,6 +316,31 @@
                 $("#txtpack").val('');
                 $("#txtws").val('');
                 $("#txttgl_plan_sew").val('');
+                $("#sew_in").val('');
+                $("#pack_in").val('');
+
+                // Defect
+                $('#defect_line').val('');
+                $('#defect_status').val('');
+                $('#defect_type').val('');
+                $('#defect_allocation').val('');
+                $('#defect_in').val('');
+                $('#defect_out').val('');
+                $('#external').val('');
+                $('#external_status').val('');
+                $('#external_in').val('');
+                $('#external_out').val('');
+                $('#packing_defect_line').val('');
+                $('#packing_defect_status').val('');
+                $('#packing_defect_type').val('');
+                $('#packing_defect_allocation').val('');
+                $('#packing_defect_in').val('');
+                $('#packing_defect_out').val('');
+                $('#packing_external').val('');
+                $('#packing_external_status').val('');
+                $('#packing_external_in').val('');
+                $('#packing_external_out').val('');
+
                 scanqr();
             })
         })
@@ -377,41 +449,14 @@
                         document.getElementById('txtsew_line').value = response.sewing_line;
                         document.getElementById('txtpack').value = response.packing_line;
                         document.getElementById('txttgl_plan_sew').value = response.tgl_plan_fix;
-
-                        document.getElementById('defect_status').value = response.defect_status;
-                        document.getElementById('defect_type').value = response.defect_type;
-                        document.getElementById('defect_allocation').value = response.defect_allocation;
-                        document.getElementById('external').value = response.external;
-                        document.getElementById('external_status').value = response.external_status;
-                        document.getElementById('external_in').value = response.external_in;
-                        document.getElementById('external_out').value = response.external_out;
-
-                        document.getElementById('packing_defect_status').value = response.packing_defect_status;
-                        document.getElementById('packing_defect_type').value = response.packing_defect_type;
-                        document.getElementById('packing_defect_allocation').value = response.packing_defect_allocation;
-                        document.getElementById('packing_external').value = response.packing_external;
-                        document.getElementById('packing_external_status').value = response.packing_external_status;
-                        document.getElementById('packing_external_in').value = response.packing_external_in;
-                        document.getElementById('packing_external_out').value = response.packing_external_out;
+                        document.getElementById('sew_in').value = response.sewing_in;
+                        document.getElementById('pack_in').value = response.packing_in;
                     } else {
                         document.getElementById('txtsew_line').value = response;
                         document.getElementById('txtpack').value = response;
-
-                        document.getElementById('defect_status').value = response.defect_status;
-                        document.getElementById('defect_type').value = response.defect_type;
-                        document.getElementById('defect_allocation').value = response.defect_allocation;
-                        document.getElementById('external').value = response.external;
-                        document.getElementById('external_status').value = response.external_status;
-                        document.getElementById('external_in').value = response.external_in;
-                        document.getElementById('external_out').value = response.external_out;
-
-                        document.getElementById('packing_defect_status').value = response.packing_defect_status;
-                        document.getElementById('packing_defect_type').value = response.packing_defect_type;
-                        document.getElementById('packing_defect_allocation').value = response.packing_defect_allocation;
-                        document.getElementById('packing_external').value = response.packing_external;
-                        document.getElementById('packing_external_status').value = response.packing_external_status;
-                        document.getElementById('packing_external_in').value = response.packing_external_in;
-                        document.getElementById('packing_external_out').value = response.packing_external_out;
+                        document.getElementById('txttgl_plan_sew').value = response;
+                        document.getElementById('sew_in').value = response;
+                        document.getElementById('pack_in').value = response;
                     }
 
                     $('#scan-qr-header').CardWidget('toggle')
@@ -423,6 +468,68 @@
                 },
             });
 
+
+            let html_2 = $.ajax({
+                type: "get",
+                url: '{{ route('getdataqr_defect') }}',
+                data: {
+                    txtqr: txtqr
+                },
+                dataType: 'json',
+                success: function(response) {
+                    console.log(response);
+
+                    document.getElementById("loading").classList.add("d-none");
+
+                    console.log(response);
+                    if (response != '-') {
+                        document.getElementById('defect_line').value = response.sewing_line;
+                        document.getElementById('defect_status').value = response.defect_status;
+                        document.getElementById('defect_type').value = response.defect_type;
+                        document.getElementById('defect_allocation').value = response.defect_allocation;
+                        document.getElementById('defect_in').value = response.defect_in;
+                        document.getElementById('defect_out').value = response.defect_out;
+                        document.getElementById('external').value = response.external;
+                        document.getElementById('external_status').value = response.external_status;
+                        document.getElementById('external_in').value = response.external_in;
+                        document.getElementById('external_out').value = response.external_out;
+
+                        document.getElementById('packing_defect_line').value = response.packing_line;
+                        document.getElementById('packing_defect_status').value = response.packing_defect_status;
+                        document.getElementById('packing_defect_type').value = response.packing_defect_type;
+                        document.getElementById('packing_defect_allocation').value = response.packing_defect_allocation;
+                        document.getElementById('packing_defect_in').value = response.packing_defect_in;
+                        document.getElementById('packing_defect_out').value = response.packing_defect_out;
+                        document.getElementById('packing_external').value = response.packing_external;
+                        document.getElementById('packing_external_status').value = response.packing_external_status;
+                        document.getElementById('packing_external_in').value = response.packing_external_in;
+                        document.getElementById('packing_external_out').value = response.packing_external_out;
+                    } else {
+                        document.getElementById('defect_status').value = response;
+                        document.getElementById('defect_type').value = response;
+                        document.getElementById('defect_allocation').value = response;
+                        document.getElementById('external').value = response;
+                        document.getElementById('external_status').value = response;
+                        document.getElementById('external_in').value = response;
+                        document.getElementById('external_out').value = response;
+
+                        document.getElementById('packing_defect_status').value = response;
+                        document.getElementById('packing_defect_type').value = response;
+                        document.getElementById('packing_defect_allocation').value = response;
+                        document.getElementById('packing_external').value = response;
+                        document.getElementById('packing_external_status').value = response;
+                        document.getElementById('packing_external_in').value = response;
+                        document.getElementById('packing_external_out').value = response;
+                    }
+
+                    $('#scan-qr-header').CardWidget('toggle')
+                },
+                error: function(request, status, error) {
+                    document.getElementById("loading").classList.add("d-none");
+
+                    $('#scan-qr-header').CardWidget('toggle')
+                },
+            });
             // let html = $.ajax({
             //     type: "get",
             //     url: '{{ route('getdataqr_gambar') }}',
