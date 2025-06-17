@@ -112,6 +112,22 @@
                     </div>
                 </div>
                 <hr style="border-top: 1px solid rgba(109, 109, 109, 1);">
+                <h5 class="text-sb fw-bold">Cutting</h5>
+                <div class="col-6 col-md-6">
+                    <div class="mb-3">
+                        <label class="form-label"><small><b>Tamggal Loading</b></small></label>
+                        <input type="text" class="form-control form-control-sm" name="txttgl_load" id="txttgl_load"
+                            readonly>
+                    </div>
+                </div>
+                <div class="col-6 col-md-6">
+                    <div class="mb-3">
+                        <label class="form-label"><small><b>Line Loading</b></small></label>
+                        <input type="text" class="form-control form-control-sm" name="txtline_load" id="txtline_load"
+                            readonly>
+                    </div>
+                </div>
+                <hr style="border-top: 1px solid rgba(109, 109, 109, 1);">
                 <h5 class="text-sb fw-bold">Output</h5>
                 <div class="col-12 col-md-12">
                     <div class="mb-3">
@@ -483,27 +499,27 @@
 
                     console.log(response);
                     if (response != '-') {
-                        document.getElementById('defect_line').value = response.sewing_line;
-                        document.getElementById('defect_status').value = response.defect_status;
-                        document.getElementById('defect_type').value = response.defect_type;
-                        document.getElementById('defect_allocation').value = response.defect_allocation;
-                        document.getElementById('defect_in').value = response.defect_in;
-                        document.getElementById('defect_out').value = response.defect_out;
-                        document.getElementById('external').value = response.external;
-                        document.getElementById('external_status').value = response.external_status;
-                        document.getElementById('external_in').value = response.external_in;
-                        document.getElementById('external_out').value = response.external_out;
+                        document.getElementById('defect_line').value = response.sewing_line ? response.sewing_line : "-";
+                        document.getElementById('defect_status').value = response.defect_status ? response.defect_status : "-";
+                        document.getElementById('defect_type').value = response.defect_type ? response.defect_type : "-";
+                        document.getElementById('defect_allocation').value = response.defect_allocation ? response.defect_allocation : "-";
+                        document.getElementById('defect_in').value = response.defect_in ? response.defect_in : "-";
+                        document.getElementById('defect_out').value = response.defect_out ? response.defect_out : "-";
+                        document.getElementById('external').value = response.external ? response.external : "-";
+                        document.getElementById('external_status').value = response.external_status ? response.external_status : "-";
+                        document.getElementById('external_in').value = response.external_in ? response.external_in : "-";
+                        document.getElementById('external_out').value = response.external_out ? response.external_out : "-";
 
-                        document.getElementById('packing_defect_line').value = response.packing_line;
-                        document.getElementById('packing_defect_status').value = response.packing_defect_status;
-                        document.getElementById('packing_defect_type').value = response.packing_defect_type;
-                        document.getElementById('packing_defect_allocation').value = response.packing_defect_allocation;
-                        document.getElementById('packing_defect_in').value = response.packing_defect_in;
-                        document.getElementById('packing_defect_out').value = response.packing_defect_out;
-                        document.getElementById('packing_external').value = response.packing_external;
-                        document.getElementById('packing_external_status').value = response.packing_external_status;
-                        document.getElementById('packing_external_in').value = response.packing_external_in;
-                        document.getElementById('packing_external_out').value = response.packing_external_out;
+                        document.getElementById('packing_defect_line').value = response.packing_line ? response.packing_line : "-";
+                        document.getElementById('packing_defect_status').value = response.packing_defect_status ? response.packing_defect_status : "-";
+                        document.getElementById('packing_defect_type').value = response.packing_defect_type ? response.packing_defect_type : "-";
+                        document.getElementById('packing_defect_allocation').value = response.packing_defect_allocation ? response.packing_defect_allocation : "-";
+                        document.getElementById('packing_defect_in').value = response.packing_defect_in ? response.packing_defect_in : "-";
+                        document.getElementById('packing_defect_out').value = response.packing_defect_out ? response.packing_defect_out : "-";
+                        document.getElementById('packing_external').value = response.packing_external ? response.packing_external : "-";
+                        document.getElementById('packing_external_status').value = response.packing_external_status ? response.packing_external_status : "-";
+                        document.getElementById('packing_external_in').value = response.packing_external_in ? response.packing_external_in : "-";
+                        document.getElementById('packing_external_out').value = response.packing_external_out ? response.packing_external_out : "-";
                     } else {
                         document.getElementById('defect_status').value = response;
                         document.getElementById('defect_type').value = response;
@@ -564,6 +580,8 @@
                     document.getElementById('txtno_form').value = response.no_form;
                     document.getElementById('txtdest').value = response.dest;
                     document.getElementById('txtws').value = response.ws;
+                    document.getElementById('txtline_load').value = response.line_loading;
+                    document.getElementById('txttgl_load').value = response.tanggal_loading;
                     // setTimeout(() => {
                     //     // initScan();
                     // }, 1000);

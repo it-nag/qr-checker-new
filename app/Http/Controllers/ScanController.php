@@ -64,15 +64,19 @@ class ScanController extends Controller
             mi.kode,
             u.name,
             f.no_form,
-            m.dest
+            m.dest,
+            ll.nama_line line_loading,
+            ll.tanggal_loading
             from (
-            select id_year_sequence, form_cut_id, so_det_id from year_sequence a
+            select id_year_sequence, form_cut_id, so_det_id, id_qr_stocker from year_sequence a
             where id_year_sequence = '$qr'
             ) a
             inner join master_sb_ws m on a.so_det_id = m.id_so_det
             left join form_cut_input f on a.form_cut_id = f.id
             left join marker_input mi on f.id_marker = mi.kode
             left join form_cut_input_detail fd on f.no_form = fd.no_form_cut_input
+            left join stocker_input stk on stk.id_qr_stocker = a.id_qr_stocker
+            left join loading_line ll on ll.stocker_id = stk.id
             left join users u on f.no_meja = u.id
             group by fd.id_item");
 
@@ -135,80 +139,109 @@ class ScanController extends Controller
         }
 
         $data_sb = DB::connection('mysql_sb')->select("
-            select
-                a.kode_numbering,
-                a.sewing_line,
-                a.defect_status,
-                a.defect_in,
-                a.defect_out,
-                a.defect_type,
-                a.defect_allocation,
-                a.external_status,
-                a.external_type,
-                a.external,
-                a.external_in,
-                a.external_out,
-                b.packing_line,
-                b.packing_defect_status,
-                b.packing_defect_in,
-                b.packing_defect_out,
-                b.packing_defect_type,
-                b.packing_defect_allocation,
-                b.packing_external_status,
-                b.packing_external_type,
-                b.packing_external,
-                b.packing_external_in,
-                b.packing_external_out,
-                mp.id master_plan_id,
+            SELECT
+                merged.kode_numbering,
+                merged.sewing_line,
+                merged.defect_status,
+                merged.defect_in,
+                merged.defect_out,
+                merged.defect_type,
+                merged.defect_allocation,
+                merged.external_status,
+                merged.external_type,
+                merged.external,
+                merged.external_in,
+                merged.external_out,
+
+                merged.packing_line,
+                merged.packing_defect_status,
+                merged.packing_defect_in,
+                merged.packing_defect_out,
+                merged.packing_defect_type,
+                merged.packing_defect_allocation,
+                merged.packing_external_status,
+                merged.packing_external_type,
+                merged.packing_external,
+                merged.packing_external_in,
+                merged.packing_external_out,
+
+                mp.id AS master_plan_id,
                 mp.tgl_plan,
                 DATE_FORMAT(mp.tgl_plan, '%d-%m-%Y') AS tgl_plan_fix
-            from (
+
+            FROM (
+                -- 🔹 Sewing data (packing columns = NULL)
                 SELECT
-                    master_plan_id,
                     o.kode_numbering,
-                    u.NAME sewing_line,
+                    u.NAME AS sewing_line,
                     o.defect_status,
-                    o.created_at defect_in,
-                    (CASE WHEN o.defect_status = 'reworked' THEN o.updated_at ELSE '-' END) defect_out,
+                    o.created_at AS defect_in,
+                    CASE WHEN o.defect_status = 'reworked' THEN o.updated_at ELSE '-' END AS defect_out,
                     dt.defect_type,
-                    dt.allocation defect_allocation,
-                    dio.STATUS external_status,
-                    dio.type external_type,
-                    dio.output_type external,
-                    dio.created_at external_in,
-                    dio.reworked_at external_out
-                FROM
-                    output_defects o
-                    LEFT JOIN output_defect_types dt ON dt.id = o.defect_type_id
-                    LEFT JOIN output_defect_in_out dio ON dio.defect_id = o.id AND dio.output_type = 'qc'
-                    LEFT JOIN user_sb_wip u ON o.created_by = u.id
-                WHERE
-                    o.kode_numbering = '".$qr."'
-            ) a
-            left join (
+                    dt.allocation AS defect_allocation,
+                    dio.STATUS AS external_status,
+                    dio.type AS external_type,
+                    dio.output_type AS external,
+                    dio.created_at AS external_in,
+                    dio.reworked_at AS external_out,
+
+                    NULL AS packing_line,
+                    NULL AS packing_defect_status,
+                    NULL AS packing_defect_in,
+                    '-' AS packing_defect_out,
+                    NULL AS packing_defect_type,
+                    NULL AS packing_defect_allocation,
+                    NULL AS packing_external_status,
+                    NULL AS packing_external_type,
+                    NULL AS packing_external,
+                    NULL AS packing_external_in,
+                    NULL AS packing_external_out,
+
+                    o.master_plan_id
+                FROM output_defects o
+                LEFT JOIN output_defect_types dt ON dt.id = o.defect_type_id
+                LEFT JOIN output_defect_in_out dio ON dio.defect_id = o.id AND dio.output_type = 'qc'
+                LEFT JOIN user_sb_wip u ON o.created_by = u.id
+                WHERE o.kode_numbering = '".$qr."'
+
+                UNION
+
+                -- 🔹 Packing data (sewing columns = NULL)
                 SELECT
-                    master_plan_id,
-                    o.kode_numbering,
-                    u.FullName packing_line,
-                    o.defect_status packing_defect_status,
-                    o.created_at packing_defect_in,
-                    (CASE WHEN o.defect_status = 'reworked' THEN o.updated_at ELSE '-' END) packing_defect_out,
-                    dt.defect_type packing_defect_type,
-                    dt.allocation packing_defect_allocation,
-                    dio.STATUS packing_external_status,
-                    dio.type packing_external_type,
-                    dio.output_type packing_external,
-                    dio.created_at packing_external_in,
-                    dio.reworked_at packing_external_out
-                FROM
-                    output_defects_packing o
-                    LEFT JOIN output_defect_types dt ON dt.id = o.defect_type_id
-                    LEFT JOIN output_defect_in_out dio ON dio.defect_id = o.id AND dio.output_type = 'qc'
-                    LEFT JOIN userpassword u ON o.created_by = u.username
-                WHERE
-                    o.kode_numbering = '".$qr."'
-            ) b on a.kode_numbering = b.kode_numbering
-            inner join master_plan mp on a.master_plan_id = mp.id
+                    op.kode_numbering,
+                    NULL AS sewing_line,
+                    NULL AS defect_status,
+                    NULL AS defect_in,
+                    '-' AS defect_out,
+                    NULL AS defect_type,
+                    NULL AS defect_allocation,
+                    NULL AS external_status,
+                    NULL AS external_type,
+                    NULL AS external,
+                    NULL AS external_in,
+                    NULL AS external_out,
+
+                    up.FullName AS packing_line,
+                    op.defect_status AS packing_defect_status,
+                    op.created_at AS packing_defect_in,
+                    CASE WHEN op.defect_status = 'reworked' THEN op.updated_at ELSE '-' END AS packing_defect_out,
+                    dtt.defect_type AS packing_defect_type,
+                    dtt.allocation AS packing_defect_allocation,
+                    diop.STATUS AS packing_external_status,
+                    diop.type AS packing_external_type,
+                    diop.output_type AS packing_external,
+                    diop.created_at AS packing_external_in,
+                    diop.reworked_at AS packing_external_out,
+
+                    op.master_plan_id
+                FROM output_defects_packing op
+                LEFT JOIN output_defect_types dtt ON dtt.id = op.defect_type_id
+                LEFT JOIN output_defect_in_out diop ON diop.defect_id = op.id AND diop.output_type = 'qc'
+                LEFT JOIN userpassword up ON op.created_by = up.username
+                WHERE op.kode_numbering = '".$qr."'
+            ) AS merged
+
+            LEFT JOIN master_plan mp ON mp.id = merged.master_plan_id
         ");
 
         return json_encode($data_sb ? $data_sb[0] : '-');
