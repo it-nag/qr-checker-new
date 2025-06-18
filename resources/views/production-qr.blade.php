@@ -505,7 +505,7 @@
                         document.getElementById('defect_allocation').value = response.defect_allocation ? response.defect_allocation : "-";
                         document.getElementById('defect_in').value = response.defect_in ? response.defect_in : "-";
                         document.getElementById('defect_out').value = response.defect_out ? response.defect_out : "-";
-                        document.getElementById('external').value = response.external ? response.external : "-";
+                        document.getElementById('external').value = response.external_type ? response.external_type : "-";
                         document.getElementById('external_status').value = response.external_status ? response.external_status : "-";
                         document.getElementById('external_in').value = response.external_in ? response.external_in : "-";
                         document.getElementById('external_out').value = response.external_out ? response.external_out : "-";
@@ -516,7 +516,7 @@
                         document.getElementById('packing_defect_allocation').value = response.packing_defect_allocation ? response.packing_defect_allocation : "-";
                         document.getElementById('packing_defect_in').value = response.packing_defect_in ? response.packing_defect_in : "-";
                         document.getElementById('packing_defect_out').value = response.packing_defect_out ? response.packing_defect_out : "-";
-                        document.getElementById('packing_external').value = response.packing_external ? response.packing_external : "-";
+                        document.getElementById('packing_external').value = response.packing_external_type ? response.packing_external_type : "-";
                         document.getElementById('packing_external_status').value = response.packing_external_status ? response.packing_external_status : "-";
                         document.getElementById('packing_external_in').value = response.packing_external_in ? response.packing_external_in : "-";
                         document.getElementById('packing_external_out').value = response.packing_external_out ? response.packing_external_out : "-";
