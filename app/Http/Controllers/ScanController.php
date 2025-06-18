@@ -173,7 +173,7 @@ class ScanController extends Controller
                 -- 🔹 Sewing data (packing columns = NULL)
                 SELECT
                     o.kode_numbering,
-                    u.NAME AS sewing_line,
+                    us.username AS sewing_line,
                     o.defect_status,
                     o.created_at AS defect_in,
                     CASE WHEN o.defect_status = 'reworked' THEN o.updated_at ELSE '-' END AS defect_out,
@@ -202,13 +202,14 @@ class ScanController extends Controller
                 LEFT JOIN output_defect_types dt ON dt.id = o.defect_type_id
                 LEFT JOIN output_defect_in_out dio ON dio.defect_id = o.id AND dio.output_type = 'qc'
                 LEFT JOIN user_sb_wip u ON o.created_by = u.id
+                LEFT JOIN userpassword us ON us.line_id = u.line_id
                 WHERE o.kode_numbering = '".$qr."'
 
                 UNION
 
                 -- 🔹 Packing data (sewing columns = NULL)
                 SELECT
-                    op.kode_numbering,
+                    NULL as kode_numbering,
                     NULL AS sewing_line,
                     NULL AS defect_status,
                     NULL AS defect_in,
@@ -221,7 +222,7 @@ class ScanController extends Controller
                     NULL AS external_in,
                     NULL AS external_out,
 
-                    up.FullName AS packing_line,
+                    up.username AS packing_line,
                     op.defect_status AS packing_defect_status,
                     op.created_at AS packing_defect_in,
                     CASE WHEN op.defect_status = 'reworked' THEN op.updated_at ELSE '-' END AS packing_defect_out,
@@ -236,7 +237,7 @@ class ScanController extends Controller
                     op.master_plan_id
                 FROM output_defects_packing op
                 LEFT JOIN output_defect_types dtt ON dtt.id = op.defect_type_id
-                LEFT JOIN output_defect_in_out diop ON diop.defect_id = op.id AND diop.output_type = 'qc'
+                LEFT JOIN output_defect_in_out diop ON diop.defect_id = op.id AND diop.output_type = 'packing'
                 LEFT JOIN userpassword up ON op.created_by = up.username
                 WHERE op.kode_numbering = '".$qr."'
             ) AS merged

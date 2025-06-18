@@ -112,10 +112,10 @@
                     </div>
                 </div>
                 <hr style="border-top: 1px solid rgba(109, 109, 109, 1);">
-                <h5 class="text-sb fw-bold">Cutting</h5>
+                <h5 class="text-sb fw-bold">DC</h5>
                 <div class="col-6 col-md-6">
                     <div class="mb-3">
-                        <label class="form-label"><small><b>Tamggal Loading</b></small></label>
+                        <label class="form-label"><small><b>Tanggal Loading</b></small></label>
                         <input type="text" class="form-control form-control-sm" name="txttgl_load" id="txttgl_load"
                             readonly>
                     </div>
