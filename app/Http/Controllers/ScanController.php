@@ -291,7 +291,7 @@ class ScanController extends Controller
                     -- 🔹 Sewing data
                     SELECT
                         o.kode_numbering,
-                        us.username AS sewing_line,
+                        CONCAT('QC ', us.username) AS sewing_line,
                         o.reject_status,
                         o.created_at AS reject_in,
                         dt.defect_type,
@@ -321,7 +321,7 @@ class ScanController extends Controller
                         NULL AS defect_type,
                         NULL AS defect_allocation,
 
-                        us.username AS packing_line,
+                        CONCAT('PACKING ', us.username) AS packing_line,
                         o.reject_status AS packing_reject_status,
                         o.created_at AS packing_reject_in,
                         dt.defect_type AS packing_defect_type,
