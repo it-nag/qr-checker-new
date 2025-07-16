@@ -109,12 +109,12 @@ class ScanController extends Controller
                     where o.kode_numbering = '".$qr."'
             ) a
             left join (
-                    select kode_numbering,u.FullName packing_line, o.created_at packing_in
+                    select kode_numbering,u.username packing_line, o.created_at packing_in
                     from output_rfts_packing o
                     left join userpassword u on o.created_by = u.username
                     where kode_numbering = '".$qr."'
             ) b on a.kode_numbering = b.kode_numbering
-            inner join master_plan mp on a.master_plan_id = mp.id
+            left join master_plan mp on a.master_plan_id = mp.id
         ");
         return json_encode($data_sb ? $data_sb[0] : '-');
     }
@@ -141,108 +141,202 @@ class ScanController extends Controller
         $data_sb = DB::connection('mysql_sb')->select("
             SELECT
                 merged.kode_numbering,
-                merged.sewing_line,
-                merged.defect_status,
-                merged.defect_in,
-                merged.defect_out,
-                merged.defect_type,
-                merged.defect_allocation,
-                merged.external_status,
-                merged.external_type,
-                merged.external,
-                merged.external_in,
-                merged.external_out,
 
-                merged.packing_line,
-                merged.packing_defect_status,
-                merged.packing_defect_in,
-                merged.packing_defect_out,
-                merged.packing_defect_type,
-                merged.packing_defect_allocation,
-                merged.packing_external_status,
-                merged.packing_external_type,
-                merged.packing_external,
-                merged.packing_external_in,
-                merged.packing_external_out,
+                -- 🧵 Sewing Info
+                GROUP_CONCAT(DISTINCT merged.sewing_line) AS sewing_line,
+                GROUP_CONCAT(DISTINCT merged.defect_status) AS defect_status,
+                GROUP_CONCAT(DISTINCT merged.defect_in) AS defect_in,
+                GROUP_CONCAT(DISTINCT merged.defect_out) AS defect_out,
+                GROUP_CONCAT(DISTINCT merged.defect_type) AS defect_type,
+                GROUP_CONCAT(DISTINCT merged.defect_allocation) AS defect_allocation,
+                GROUP_CONCAT(DISTINCT merged.external_status) AS external_status,
+                GROUP_CONCAT(DISTINCT merged.external_type) AS external_type,
+                GROUP_CONCAT(DISTINCT merged.external) AS external,
+                GROUP_CONCAT(DISTINCT merged.external_in) AS external_in,
+                GROUP_CONCAT(DISTINCT merged.external_out) AS external_out,
 
+                -- 📦 Packing Info
+                GROUP_CONCAT(DISTINCT merged.packing_line) AS packing_line,
+                GROUP_CONCAT(DISTINCT merged.packing_defect_status) AS packing_defect_status,
+                GROUP_CONCAT(DISTINCT merged.packing_defect_in) AS packing_defect_in,
+                GROUP_CONCAT(DISTINCT merged.packing_defect_out) AS packing_defect_out,
+                GROUP_CONCAT(DISTINCT merged.packing_defect_type) AS packing_defect_type,
+                GROUP_CONCAT(DISTINCT merged.packing_defect_allocation) AS packing_defect_allocation,
+                GROUP_CONCAT(DISTINCT merged.packing_external_status) AS packing_external_status,
+                GROUP_CONCAT(DISTINCT merged.packing_external_type) AS packing_external_type,
+                GROUP_CONCAT(DISTINCT merged.packing_external) AS packing_external,
+                GROUP_CONCAT(DISTINCT merged.packing_external_in) AS packing_external_in,
+                GROUP_CONCAT(DISTINCT merged.packing_external_out) AS packing_external_out,
+
+                -- 📅 Master Plan Info
                 mp.id AS master_plan_id,
                 mp.tgl_plan,
                 DATE_FORMAT(mp.tgl_plan, '%d-%m-%Y') AS tgl_plan_fix
 
             FROM (
-                -- 🔹 Sewing data (packing columns = NULL)
-                SELECT
-                    o.kode_numbering,
-                    us.username AS sewing_line,
-                    o.defect_status,
-                    o.created_at AS defect_in,
-                    CASE WHEN o.defect_status = 'reworked' THEN o.updated_at ELSE '-' END AS defect_out,
-                    dt.defect_type,
-                    dt.allocation AS defect_allocation,
-                    dio.STATUS AS external_status,
-                    dio.type AS external_type,
-                    dio.output_type AS external,
-                    dio.created_at AS external_in,
-                    dio.reworked_at AS external_out,
+                    -- 🔹 Sewing data
+                    SELECT
+                            o.kode_numbering,
+                            us.username AS sewing_line,
+                            o.defect_status,
+                            o.created_at AS defect_in,
+                            CASE WHEN o.defect_status = 'reworked' THEN o.updated_at ELSE NULL END AS defect_out,
+                            dt.defect_type,
+                            dt.allocation AS defect_allocation,
+                            dio.STATUS AS external_status,
+                            dio.type AS external_type,
+                            dio.output_type AS external,
+                            dio.created_at AS external_in,
+                            dio.reworked_at AS external_out,
 
-                    NULL AS packing_line,
-                    NULL AS packing_defect_status,
-                    NULL AS packing_defect_in,
-                    '-' AS packing_defect_out,
-                    NULL AS packing_defect_type,
-                    NULL AS packing_defect_allocation,
-                    NULL AS packing_external_status,
-                    NULL AS packing_external_type,
-                    NULL AS packing_external,
-                    NULL AS packing_external_in,
-                    NULL AS packing_external_out,
+                            -- Packing fields NULLed
+                            NULL AS packing_line,
+                            NULL AS packing_defect_status,
+                            NULL AS packing_defect_in,
+                            NULL AS packing_defect_out,
+                            NULL AS packing_defect_type,
+                            NULL AS packing_defect_allocation,
+                            NULL AS packing_external_status,
+                            NULL AS packing_external_type,
+                            NULL AS packing_external,
+                            NULL AS packing_external_in,
+                            NULL AS packing_external_out,
 
-                    o.master_plan_id
-                FROM output_defects o
-                LEFT JOIN output_defect_types dt ON dt.id = o.defect_type_id
-                LEFT JOIN output_defect_in_out dio ON dio.defect_id = o.id AND dio.output_type = 'qc'
-                LEFT JOIN user_sb_wip u ON o.created_by = u.id
-                LEFT JOIN userpassword us ON us.line_id = u.line_id
-                WHERE o.kode_numbering = '".$qr."'
+                            o.master_plan_id
+                    FROM output_defects o
+                    LEFT JOIN output_defect_types dt ON dt.id = o.defect_type_id
+                    LEFT JOIN output_defect_in_out dio ON dio.defect_id = o.id AND dio.output_type = 'qc'
+                    LEFT JOIN user_sb_wip u ON o.created_by = u.id
+                    LEFT JOIN userpassword us ON us.line_id = u.line_id
+                    WHERE o.kode_numbering = '".$qr."'
 
-                UNION
+                    UNION
 
-                -- 🔹 Packing data (sewing columns = NULL)
-                SELECT
-                    NULL as kode_numbering,
-                    NULL AS sewing_line,
-                    NULL AS defect_status,
-                    NULL AS defect_in,
-                    '-' AS defect_out,
-                    NULL AS defect_type,
-                    NULL AS defect_allocation,
-                    NULL AS external_status,
-                    NULL AS external_type,
-                    NULL AS external,
-                    NULL AS external_in,
-                    NULL AS external_out,
+                    -- 🔹 Packing data
+                    SELECT
+                            op.kode_numbering,
+                            NULL AS sewing_line,
+                            NULL AS defect_status,
+                            NULL AS defect_in,
+                            NULL AS defect_out,
+                            NULL AS defect_type,
+                            NULL AS defect_allocation,
+                            NULL AS external_status,
+                            NULL AS external_type,
+                            NULL AS external,
+                            NULL AS external_in,
+                            NULL AS external_out,
 
-                    up.username AS packing_line,
-                    op.defect_status AS packing_defect_status,
-                    op.created_at AS packing_defect_in,
-                    CASE WHEN op.defect_status = 'reworked' THEN op.updated_at ELSE '-' END AS packing_defect_out,
-                    dtt.defect_type AS packing_defect_type,
-                    dtt.allocation AS packing_defect_allocation,
-                    diop.STATUS AS packing_external_status,
-                    diop.type AS packing_external_type,
-                    diop.output_type AS packing_external,
-                    diop.created_at AS packing_external_in,
-                    diop.reworked_at AS packing_external_out,
+                            up.username AS packing_line,
+                            op.defect_status AS packing_defect_status,
+                            op.created_at AS packing_defect_in,
+                            CASE WHEN op.defect_status = 'reworked' THEN op.updated_at ELSE NULL END AS packing_defect_out,
+                            dtt.defect_type AS packing_defect_type,
+                            dtt.allocation AS packing_defect_allocation,
+                            diop.STATUS AS packing_external_status,
+                            diop.type AS packing_external_type,
+                            diop.output_type AS packing_external,
+                            diop.created_at AS packing_external_in,
+                            diop.reworked_at AS packing_external_out,
 
-                    op.master_plan_id
-                FROM output_defects_packing op
-                LEFT JOIN output_defect_types dtt ON dtt.id = op.defect_type_id
-                LEFT JOIN output_defect_in_out diop ON diop.defect_id = op.id AND diop.output_type = 'packing'
-                LEFT JOIN userpassword up ON op.created_by = up.username
-                WHERE op.kode_numbering = '".$qr."'
+                            op.master_plan_id
+                    FROM output_defects_packing op
+                    LEFT JOIN output_defect_types dtt ON dtt.id = op.defect_type_id
+                    LEFT JOIN output_defect_in_out diop ON diop.defect_id = op.id AND diop.output_type = 'packing'
+                    LEFT JOIN userpassword up ON op.created_by = up.username
+                    WHERE op.kode_numbering = '".$qr."'
             ) AS merged
 
             LEFT JOIN master_plan mp ON mp.id = merged.master_plan_id
+            GROUP BY merged.kode_numbering
+        ");
+
+        return json_encode($data_sb ? $data_sb[0] : '-');
+    }
+
+    public function getdataqr_reject(Request $request)
+    {
+        $codes = explode("_", $request->txtqr);
+
+        if (count($codes) > 2) {
+            $qr = substr($codes[0], 0, 4) . "_" . $codes[1] . "_" . $codes[2];
+        } else {
+            $qr = $request->txtqr;
+        }
+
+        $data_sb = DB::connection('mysql_sb')->select("
+            SELECT
+                merged.kode_numbering,
+
+                -- 🧵 Sewing Info
+                GROUP_CONCAT(DISTINCT merged.sewing_line) AS sewing_line,
+                GROUP_CONCAT(DISTINCT merged.reject_status) AS reject_status,
+                GROUP_CONCAT(DISTINCT merged.reject_in) AS reject_in,
+                GROUP_CONCAT(DISTINCT merged.defect_type) AS defect_type,
+                GROUP_CONCAT(DISTINCT merged.defect_allocation) AS defect_allocation,
+
+                -- 📦 Packing Info
+                GROUP_CONCAT(DISTINCT merged.packing_line) AS packing_line,
+                GROUP_CONCAT(DISTINCT merged.packing_reject_status) AS packing_reject_status,
+                GROUP_CONCAT(DISTINCT merged.packing_reject_in) AS packing_reject_in,
+                GROUP_CONCAT(DISTINCT merged.packing_defect_type) AS packing_defect_type,
+                GROUP_CONCAT(DISTINCT merged.packing_defect_allocation) AS packing_defect_allocation,
+
+                -- 📅 Master Plan Info
+                mp.id AS master_plan_id,
+                mp.tgl_plan,
+                DATE_FORMAT(mp.tgl_plan, '%d-%m-%Y') AS tgl_plan_fix
+
+            FROM (
+                    -- 🔹 Sewing data
+                    SELECT
+                        o.kode_numbering,
+                        us.username AS sewing_line,
+                        o.reject_status,
+                        o.created_at AS reject_in,
+                        dt.defect_type,
+                        dt.allocation AS defect_allocation,
+
+                        NULL AS packing_line,
+                        NULL AS packing_reject_status,
+                        NULL AS packing_reject_in,
+                        NULL AS packing_defect_type,
+                        NULL AS packing_defect_allocation,
+
+                        o.master_plan_id
+                    FROM output_rejects o
+                    LEFT JOIN output_defect_types dt ON dt.id = o.reject_type_id
+                    LEFT JOIN user_sb_wip u ON o.created_by = u.id
+                    LEFT JOIN userpassword us ON us.line_id = u.line_id
+                    WHERE o.kode_numbering = '".$qr."'
+
+                    UNION
+
+                    -- 🔹 Packing data
+                    SELECT
+                        o.kode_numbering,
+                        NULL AS sewing_line,
+                        NULL AS reject_status,
+                        NULL AS reject_in,
+                        NULL AS defect_type,
+                        NULL AS defect_allocation,
+
+                        us.username AS packing_line,
+                        o.reject_status AS packing_reject_status,
+                        o.created_at AS packing_reject_in,
+                        dt.defect_type AS packing_defect_type,
+                        dt.allocation AS packing_defect_allocation,
+
+                        o.master_plan_id
+                    FROM output_rejects_packing o
+                    LEFT JOIN output_defect_types dt ON dt.id = o.reject_type_id
+                    LEFT JOIN user_sb_wip u ON o.created_by = u.id
+                    LEFT JOIN userpassword us ON us.line_id = u.line_id
+                    WHERE o.kode_numbering = '".$qr."'
+            ) AS merged
+
+            LEFT JOIN master_plan mp ON mp.id = merged.master_plan_id
+            GROUP BY merged.kode_numbering
         ");
 
         return json_encode($data_sb ? $data_sb[0] : '-');

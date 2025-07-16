@@ -297,6 +297,36 @@
                         </div>
                     </div>
                 </div>
+                <hr style="border-top: 1px solid rgba(109, 109, 109, 1);">
+                <div class="col-md-12" id="reject-output">
+                    <h5 class="text-sb fw-bold">Reject</h5>
+                    <div class="row">
+                        <div class="col-3 col-md-3">
+                            <div class="mb-3">
+                                <label class="form-label"><small><b>Line</b></small></label>
+                                <input type="text" class="form-control form-control-sm" name="reject_line" id="reject_line" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="mb-3">
+                                <label class="form-label"><small><b>Reject IN</b></small></label>
+                                <input type="text" class="form-control form-control-sm" name="reject_in" id="reject_in" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="mb-3">
+                                <label class="form-label"><small><b>Jenis Defect</b></small></label>
+                                <input type="text" class="form-control form-control-sm" name="reject_type" id="reject_type" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="mb-3">
+                                <label class="form-label"><small><b>Alokasi</b></small></label>
+                                <input type="text" class="form-control form-control-sm" name="reject_allocation" id="reject_allocation" readonly>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="col-8">
                     <div class="mb-3">
                         {{-- <label class="form-label"><small><b>Gambar</b></small></label> --}}
@@ -446,6 +476,9 @@
 
                 $('#scan-qr-header').CardWidget('toggle')
             }
+
+            document.getElementById('label_kode_numbering').innerHTML = "Kode Label : "+txtqr;
+
             let html_1 = $.ajax({
                 type: "get",
                 url: '{{ route('getdataqr_sb') }}',
@@ -460,8 +493,6 @@
 
                     console.log(response);
                     if (response != '-') {
-                        document.getElementById('label_kode_numbering').innerHTML = "Kode Label : "+txtqr;
-
                         document.getElementById('txtsew_line').value = response.sewing_line;
                         document.getElementById('txtpack').value = response.packing_line;
                         document.getElementById('txttgl_plan_sew').value = response.tgl_plan_fix;
@@ -546,6 +577,41 @@
                     $('#scan-qr-header').CardWidget('toggle')
                 },
             });
+
+            let html_3 = $.ajax({
+                type: "get",
+                url: '{{ route('getdataqr_reject') }}',
+                data: {
+                    txtqr: txtqr
+                },
+                dataType: 'json',
+                success: function(response) {
+                    console.log(response);
+
+                    document.getElementById("loading").classList.add("d-none");
+
+                    console.log(response);
+                    if (response != '-') {
+                        document.getElementById('reject_line').value = response.sewing_line ? response.sewing_line : response.packing_line;
+                        document.getElementById('reject_in').value = response.reject_in ? response.reject_in : response.packing_reject_in;
+                        document.getElementById('reject_type').value = response.defect_type ? response.defect_type : response.packing_defect_type;
+                        document.getElementById('reject_allocation').value = response.defect_allocation ? response.defect_allocation : response.packing_defect_allocation;
+                    } else {
+                        document.getElementById('reject_line').value = "-";
+                        document.getElementById('reject_in').value = "-";
+                        document.getElementById('reject_type').value = "-";
+                        document.getElementById('reject_allocation').value = "-";
+                    }
+
+                    $('#scan-qr-header').CardWidget('toggle')
+                },
+                error: function(request, status, error) {
+                    document.getElementById("loading").classList.add("d-none");
+
+                    $('#scan-qr-header').CardWidget('toggle')
+                },
+            });
+
             // let html = $.ajax({
             //     type: "get",
             //     url: '{{ route('getdataqr_gambar') }}',
