@@ -62,20 +62,23 @@ class ScanController extends Controller
             concat(lebar_marker , ' ', unit_lebar_marker) width,
             count(fd.roll) tot_roll,
             mi.kode,
-            u.name,
-            f.no_form,
+            COALESCE(f.waktu_selesai, fp.updated_at, fr.updated_at) waktu,
+            COALESCE(u.name, '-') name,
+            COALESCE(f.no_form, fr.no_form, fp.no_form) no_form,
             m.dest,
             ll.nama_line line_loading,
             ll.tanggal_loading
             from (
-            select id_year_sequence, form_cut_id, so_det_id, id_qr_stocker, number from year_sequence a
+            select id_year_sequence, form_cut_id, form_reject_id, form_piece_id, so_det_id, id_qr_stocker, number from year_sequence a
             where id_year_sequence = '$qr'
             ) a
             inner join master_sb_ws m on a.so_det_id = m.id_so_det
             left join form_cut_input f on a.form_cut_id = f.id
+            left join form_cut_reject fr on a.form_reject_id = fr.id
+            left join form_cut_piece fp on a.form_piece_id = fp.id
             left join marker_input mi on f.id_marker = mi.kode
             left join form_cut_input_detail fd on f.no_form = fd.no_form_cut_input
-            left join stocker_input stk on stk.form_cut_id = f.id AND stk.so_det_id = a.so_det_id AND CAST(a.number AS UNSIGNED) >= CAST(stk.range_awal AS UNSIGNED) AND CAST(a.number AS UNSIGNED) <= CAST(stk.range_akhir AS UNSIGNED)
+            left join stocker_input stk on (stk.form_cut_id = f.id OR stk.form_reject_id = fr.id OR stk.form_piece_id = fp.id) AND stk.so_det_id = a.so_det_id AND CAST(a.number AS UNSIGNED) >= CAST(stk.range_awal AS UNSIGNED) AND CAST(a.number AS UNSIGNED) <= CAST(stk.range_akhir AS UNSIGNED)
             left join loading_line ll on ll.stocker_id = stk.id
             left join users u on f.no_meja = u.id
             group by fd.id_item");
@@ -330,8 +333,7 @@ class ScanController extends Controller
                         o.master_plan_id
                     FROM output_rejects_packing o
                     LEFT JOIN output_defect_types dt ON dt.id = o.reject_type_id
-                    LEFT JOIN user_sb_wip u ON o.created_by = u.id
-                    LEFT JOIN userpassword us ON us.line_id = u.line_id
+                    LEFT JOIN userpassword us ON us.username = o.created_by
                     WHERE o.kode_numbering = '".$qr."'
             ) AS merged
 

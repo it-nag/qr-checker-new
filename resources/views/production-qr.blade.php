@@ -97,14 +97,21 @@
                 </div>
                 <hr style="border-top: 1px solid rgba(109, 109, 109, 1);">
                 <h5 class="text-sb fw-bold">Cutting</h5>
-                <div class="col-6 col-md-6">
+                <div class="col-4 col-md-4">
                     <div class="mb-3">
-                        <label class="form-label"><small><b>Cut Plan</b></small></label>
+                        <label class="form-label"><small><b>Plan</b></small></label>
+                        <input type="text" class="form-control form-control-sm" name="txtcut_kode" id="txtcut_kode"
+                            readonly>
+                    </div>
+                </div>
+                <div class="col-4 col-md-4">
+                    <div class="mb-3">
+                        <label class="form-label"><small><b>Waktu Cutting</b></small></label>
                         <input type="text" class="form-control form-control-sm" name="txtcut_plan" id="txtcut_plan"
                             readonly>
                     </div>
                 </div>
-                <div class="col-6 col-md-6">
+                <div class="col-4 col-md-4">
                     <div class="mb-3">
                         <label class="form-label"><small><b>No Form</b></small></label>
                         <input type="text" class="form-control form-control-sm" name="txtno_form" id="txtno_form"
@@ -357,6 +364,7 @@
                 $("#txtsize").val('');
                 $("#txtdest").val('');
                 $("#txtcut_plan").val('');
+                $("#txtcut_kode").val('');
                 $("#txtno_form").val('');
                 $("#txtsew_line").val('');
                 $("#txtpack").val('');
@@ -459,7 +467,7 @@
             }
         });
 
-        function scanqr() {
+        async function scanqr() {
             document.getElementById("loading").classList.remove("d-none");
 
             let txtqr = document.getElementById("txtqr").value;
@@ -489,8 +497,6 @@
                 success: function(response) {
                     console.log(response);
 
-                    document.getElementById("loading").classList.add("d-none");
-
                     console.log(response);
                     if (response != '-') {
                         document.getElementById('txtsew_line').value = response.sewing_line;
@@ -509,8 +515,6 @@
                     $('#scan-qr-header').CardWidget('toggle')
                 },
                 error: function(request, status, error) {
-                    document.getElementById("loading").classList.add("d-none");
-
                     $('#scan-qr-header').CardWidget('toggle')
                 },
             });
@@ -524,11 +528,6 @@
                 },
                 dataType: 'json',
                 success: function(response) {
-                    console.log(response);
-
-                    document.getElementById("loading").classList.add("d-none");
-
-                    console.log(response);
                     if (response != '-') {
                         document.getElementById('defect_line').value = response.sewing_line ? response.sewing_line : "-";
                         document.getElementById('defect_status').value = response.defect_status ? response.defect_status : "-";
@@ -572,7 +571,6 @@
                     $('#scan-qr-header').CardWidget('toggle')
                 },
                 error: function(request, status, error) {
-                    document.getElementById("loading").classList.add("d-none");
 
                     $('#scan-qr-header').CardWidget('toggle')
                 },
@@ -586,11 +584,6 @@
                 },
                 dataType: 'json',
                 success: function(response) {
-                    console.log(response);
-
-                    document.getElementById("loading").classList.add("d-none");
-
-                    console.log(response);
                     if (response != '-') {
                         document.getElementById('reject_line').value = response.sewing_line ? response.sewing_line : response.packing_line;
                         document.getElementById('reject_in').value = response.reject_in ? response.reject_in : response.packing_reject_in;
@@ -606,7 +599,6 @@
                     $('#scan-qr-header').CardWidget('toggle')
                 },
                 error: function(request, status, error) {
-                    document.getElementById("loading").classList.add("d-none");
 
                     $('#scan-qr-header').CardWidget('toggle')
                 },
@@ -635,14 +627,15 @@
                 },
                 dataType: 'json',
                 success: function(response) {
-                    console.log("get data", response);
+                    document.getElementById("loading").classList.add("d-none");
 
                     document.getElementById('txtbuyer').value = response.buyer;
                     document.getElementById('txtstyle').value = response.styleno;
                     document.getElementById('txtseason').value = response.season;
                     document.getElementById('txtcolor').value = response.color;
                     document.getElementById('txtsize').value = response.size;
-                    document.getElementById('txtcut_plan').value = response.kode;
+                    document.getElementById('txtcut_kode').value = response.kode;
+                    document.getElementById('txtcut_plan').value = response.waktu;
                     document.getElementById('txtno_form').value = response.no_form;
                     document.getElementById('txtdest').value = response.dest;
                     document.getElementById('txtws').value = response.ws;
@@ -655,6 +648,8 @@
                     // datatable.ajax.reload();
                 },
                 error: function(request, status, error) {
+                    document.getElementById("loading").classList.add("d-none");
+
                     Swal.fire({
                         icon: 'error',
                         title: 'Data QR Tidak Terdaftar',
