@@ -66,8 +66,8 @@ class ScanController extends Controller
             COALESCE(u.name, '-') name,
             COALESCE(f.no_form, fr.no_form, fp.no_form) no_form,
             m.dest,
-            ll.nama_line line_loading,
-            ll.tanggal_loading
+            COALESCE(ll.nama_line, ll_bk.nama_line) line_loading,
+            COALESCE(ll.tanggal_loading, ll_bk.tanggal_loading) tanggal_loading
             from (
             select id_year_sequence, form_cut_id, form_reject_id, form_piece_id, so_det_id, id_qr_stocker, number from year_sequence a
             where id_year_sequence = '$qr'
@@ -78,8 +78,10 @@ class ScanController extends Controller
             left join form_cut_piece fp on a.form_piece_id = fp.id
             left join marker_input mi on f.id_marker = mi.kode
             left join form_cut_input_detail fd on f.no_form = fd.no_form_cut_input
-            left join stocker_input stk on (stk.form_cut_id = f.id OR stk.form_reject_id = fr.id OR stk.form_piece_id = fp.id) AND stk.so_det_id = a.so_det_id AND CAST(a.number AS UNSIGNED) >= CAST(stk.range_awal AS UNSIGNED) AND CAST(a.number AS UNSIGNED) <= CAST(stk.range_akhir AS UNSIGNED)
+            left join stocker_input stk on stk.id_qr_stocker = a.id_qr_stocker
+            left join stocker_input stk_bk on (stk_bk.form_cut_id = f.id OR stk_bk.form_reject_id = fr.id OR stk_bk.form_piece_id = fp.id) AND stk_bk.so_det_id = a.so_det_id AND CAST(a.number AS UNSIGNED) >= CAST(stk_bk.range_awal AS UNSIGNED) AND CAST(a.number AS UNSIGNED) <= CAST(stk_bk.range_akhir AS UNSIGNED)
             left join loading_line ll on ll.stocker_id = stk.id
+            left join loading_line ll_bk on ll_bk.stocker_id = stk_bk.id
             left join users u on f.no_meja = u.id
             group by fd.id_item");
 
