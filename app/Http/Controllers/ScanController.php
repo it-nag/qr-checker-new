@@ -326,7 +326,7 @@ class ScanController extends Controller
                         NULL AS defect_type,
                         NULL AS defect_allocation,
 
-                        CONCAT('PACKING ', us.username) AS packing_line,
+                        CONCAT('FINISHING ', us.username) AS packing_line,
                         o.reject_status AS packing_reject_status,
                         o.created_at AS packing_reject_in,
                         dt.defect_type AS packing_defect_type,

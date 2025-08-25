@@ -156,13 +156,13 @@
                 </div>
                 <div class="col-6 col-md-6">
                     <div class="mb-3">
-                        <label class="form-label"><small><b>Packing Line</b></small></label>
+                        <label class="form-label"><small><b>QC Finishing</b></small></label>
                         <input type="text" class="form-control form-control-sm" name="txtpack" id="txtpack" readonly>
                     </div>
                 </div>
                 <div class="col-6 col-md-6">
                     <div class="mb-3">
-                        <label class="form-label"><small><b>Packing In</b></small></label>
+                        <label class="form-label"><small><b>QC Finishing In</b></small></label>
                         <input type="text" class="form-control form-control-sm" name="pack_in" id="pack_in" readonly>
                     </div>
                 </div>
@@ -237,11 +237,11 @@
                 </div>
                 <hr style="border-top: 1px solid rgba(109, 109, 109, 1);">
                 <div class="col-md-12" id="defect-output">
-                    <h5 class="text-sb fw-bold">Defect Packing</h5>
+                    <h5 class="text-sb fw-bold">Defect QC Finishing</h5>
                     <div class="row">
                         <div class="col-3 col-md-3">
                             <div class="mb-3">
-                                <label class="form-label"><small><b>Defect Packing Line</b></small></label>
+                                <label class="form-label"><small><b>Defect QC Finishing</b></small></label>
                                 <input type="text" class="form-control form-control-sm" name="packing_defect_line" id="packing_defect_line" readonly>
                             </div>
                         </div>
@@ -265,13 +265,13 @@
                         </div>
                         <div class="col-md-3">
                             <div class="mb-3">
-                                <label class="form-label"><small><b>Defect Packing In</b></small></label>
+                                <label class="form-label"><small><b>Defect QC Finishing In</b></small></label>
                                 <input type="text" class="form-control form-control-sm" name="packing_defect_in" id="packing_defect_in" readonly>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="mb-3">
-                                <label class="form-label"><small><b>Defect Packing Out</b></small></label>
+                                <label class="form-label"><small><b>Defect QC Finishing Out</b></small></label>
                                 <input type="text" class="form-control form-control-sm" name="packing_defect_out" id="packing_defect_out" readonly>
                             </div>
                         </div>
@@ -280,25 +280,25 @@
                     <div class="row">
                         <div class="col-md-3">
                             <div class="mb-3">
-                                <label class="form-label"><small><b>Packing Defect External</b></small></label>
+                                <label class="form-label"><small><b>Finishing Defect External</b></small></label>
                                 <input type="text" class="form-control form-control-sm" name="packing_external" id="packing_external" readonly>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="mb-3">
-                                <label class="form-label"><small><b>Packing Defect External Status</b></small></label>
+                                <label class="form-label"><small><b>Finishing Defect External Status</b></small></label>
                                 <input type="text" class="form-control form-control-sm" name="packing_external_status" id="packing_external_status" readonly>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="mb-3">
-                                <label class="form-label"><small><b>Packing Defect External IN</b></small></label>
+                                <label class="form-label"><small><b>Finishing Defect External IN</b></small></label>
                                 <input type="text" class="form-control form-control-sm" name="packing_external_in" id="packing_external_in" readonly>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="mb-3">
-                                <label class="form-label"><small><b>Packing Defect External OUT</b></small></label>
+                                <label class="form-label"><small><b>Finishing Defect External OUT</b></small></label>
                                 <input type="text" class="form-control form-control-sm" name="packing_external_out" id="packing_external_out" readonly>
                             </div>
                         </div>
