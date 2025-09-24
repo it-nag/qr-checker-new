@@ -166,6 +166,24 @@
                         <input type="text" class="form-control form-control-sm" name="pack_in" id="pack_in" readonly>
                     </div>
                 </div>
+                <div class="col-4 col-md-4">
+                    <div class="mb-3">
+                        <label class="form-label"><small><b>Packing</b></small></label>
+                        <input type="text" class="form-control form-control-sm" name="txtpackpo" id="txtpackpo" readonly>
+                    </div>
+                </div>
+                <div class="col-4 col-md-4">
+                    <div class="mb-3">
+                        <label class="form-label"><small><b>PO</b></small></label>
+                        <input type="text" class="form-control form-control-sm" name="txtpo" id="txtpo" readonly>
+                    </div>
+                </div>
+                <div class="col-4 col-md-4">
+                    <div class="mb-3">
+                        <label class="form-label"><small><b>Packing In</b></small></label>
+                        <input type="text" class="form-control form-control-sm" name="packpo_in" id="packpo_in" readonly>
+                    </div>
+                </div>
                 <hr style="border-top: 1px solid rgba(109, 109, 109, 1);">
                 <div class="col-md-12" id="defect-output">
                     <h5 class="text-sb fw-bold">Defect QC</h5>
@@ -372,6 +390,9 @@
                 $("#txttgl_plan_sew").val('');
                 $("#sew_in").val('');
                 $("#pack_in").val('');
+                $("#txtpackpo").val('');
+                $("#packpo_in").val('');
+                $("#txtpo").val('');
 
                 // Defect
                 $('#defect_line').val('');
@@ -504,12 +525,18 @@
                         document.getElementById('txttgl_plan_sew').value = response.tgl_plan_fix;
                         document.getElementById('sew_in').value = response.sewing_in;
                         document.getElementById('pack_in').value = response.packing_in;
+                        document.getElementById('txtpackpo').value = response.packingpo_line;
+                        document.getElementById('packpo_in').value = response.packingpo_in;
+                        document.getElementById('txtpo').value = response.po;
                     } else {
                         document.getElementById('txtsew_line').value = response;
                         document.getElementById('txtpack').value = response;
                         document.getElementById('txttgl_plan_sew').value = response;
                         document.getElementById('sew_in').value = response;
                         document.getElementById('pack_in').value = response;
+                        document.getElementById('txtpackpo').value = response;
+                        document.getElementById('packpo_in').value = response;
+                        document.getElementById('txtpo').value = response;
                     }
 
                     $('#scan-qr-header').CardWidget('toggle')

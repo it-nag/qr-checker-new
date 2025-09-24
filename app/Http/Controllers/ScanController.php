@@ -102,11 +102,14 @@ class ScanController extends Controller
             select
             a.sewing_line,
             b.packing_line,
+            packingpo_line,
             master_plan_id,
             tgl_plan,
             DATE_FORMAT(tgl_plan, '%d-%m-%Y') AS tgl_plan_fix,
             sewing_in,
-            packing_in
+            packing_in,
+            packingpo_in,
+            c.po
             from (
                     select o.kode_numbering,u.name sewing_line, master_plan_id, o.created_at sewing_in
                     from output_rfts o
@@ -119,6 +122,13 @@ class ScanController extends Controller
                     left join userpassword u on o.created_by = u.username
                     where kode_numbering = '".$qr."'
             ) b on a.kode_numbering = b.kode_numbering
+            left join (
+                select o.kode_numbering, o.created_by_line packingpo_line, o.created_at packingpo_in, COALESCE(ppic_master_so.po, (CASE WHEN output_gudang_stok.id IS NOT NULL THEN 'GUDANG STOK' ELSE NULL END)) as po
+                from output_rfts_packing_po o
+                left join laravel_nds.ppic_master_so on ppic_master_so.id = o.po_id
+                left join output_gudang_stok on output_gudang_stok.packing_po_id = o.id
+                where o.kode_numbering = '".$qr."'
+            ) c on b.kode_numbering = c.kode_numbering
             left join master_plan mp on a.master_plan_id = mp.id
         ");
         return json_encode($data_sb ? $data_sb[0] : '-');
