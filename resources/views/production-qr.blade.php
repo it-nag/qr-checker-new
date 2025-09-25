@@ -18,7 +18,7 @@
                 <h5 class="card-title fw-bold mb-0"><i class="fas fa-hand-pointer"></i> Scan QR</h5>
             </div>
             <div class="card-body">
-                <div class="row justify-content-center align-items-end">
+                <div class="row align-items-end justify-content-center">
                     <div class="col-md-12">
                         <div class="mb-3">
                             <label class="form-label label-input"><small><b>QR Code</b></small></label>
@@ -52,7 +52,7 @@
         </div>
         <div class="card-body">
             <h3 class="text-sb fw-bold" id="label_kode_numbering">Label Kode Numbering</h3>
-            <div class="row justify-content-center align-items-end">
+            <div class="row align-items-end justify-content-center">
                 <div class="col-12 col-md-12">
                     <div class="mb-3">
                         <label class="form-label"><small><b>Buyer</b></small></label>
@@ -187,7 +187,7 @@
                 <hr style="border-top: 1px solid rgba(109, 109, 109, 1);">
                 <div class="col-md-12" id="defect-output">
                     <h5 class="text-sb fw-bold">Defect QC</h5>
-                    <div class="row">
+                    <div class="row align-items-end">
                         <div class="col-3 col-md-3">
                             <div class="mb-3">
                                 <label class="form-label"><small><b>Defect Sewing Line</b></small></label>
@@ -226,7 +226,7 @@
                         </div>
                     </div>
                     <h5 class="text-sb-secondary">External</h5>
-                    <div class="row">
+                    <div class="row align-items-end">
                         <div class="col-md-3">
                             <div class="mb-3">
                                 <label class="form-label"><small><b>Defect External</b></small></label>
@@ -256,7 +256,7 @@
                 <hr style="border-top: 1px solid rgba(109, 109, 109, 1);">
                 <div class="col-md-12" id="defect-output">
                     <h5 class="text-sb fw-bold">Defect QC Finishing</h5>
-                    <div class="row">
+                    <div class="row align-items-end">
                         <div class="col-3 col-md-3">
                             <div class="mb-3">
                                 <label class="form-label"><small><b>Defect QC Finishing</b></small></label>
@@ -295,7 +295,7 @@
                         </div>
                     </div>
                     <h5 class="text-sb-secondary">External</h5>
-                    <div class="row">
+                    <div class="row align-items-end">
                         <div class="col-md-3">
                             <div class="mb-3">
                                 <label class="form-label"><small><b>Finishing Defect External</b></small></label>
@@ -325,7 +325,7 @@
                 <hr style="border-top: 1px solid rgba(109, 109, 109, 1);">
                 <div class="col-md-12" id="reject-output">
                     <h5 class="text-sb fw-bold">Reject</h5>
-                    <div class="row">
+                    <div class="row align-items-end">
                         <div class="col-3 col-md-3">
                             <div class="mb-3">
                                 <label class="form-label"><small><b>Line</b></small></label>
