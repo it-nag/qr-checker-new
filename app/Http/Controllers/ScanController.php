@@ -189,7 +189,7 @@ class ScanController extends Controller
                 mp.id AS master_plan_id,
                 mpf.id AS master_plan_id_packing,
                 mp.tgl_plan,
-                mpf.tgl_plan_packing,
+                mpf.tgl_plan as tgl_plan_packing,
                 DATE_FORMAT(mp.tgl_plan, '%d-%m-%Y') AS tgl_plan_fix,
                 DATE_FORMAT(mpf.tgl_plan, '%d-%m-%Y') AS tgl_plan_fix_packing
 
@@ -221,7 +221,7 @@ class ScanController extends Controller
                             NULL AS packing_external_type,
                             NULL AS packing_external,
                             NULL AS packing_external_in,
-                            NULL AS packing_external_out
+                            NULL AS packing_external_out,
                             NULL as packing_plan
                     FROM output_defects o
                     LEFT JOIN output_defect_types dt ON dt.id = o.defect_type_id

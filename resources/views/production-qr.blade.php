@@ -595,7 +595,7 @@
                         document.getElementById('packing_defect_status').value = response.packing_defect_status ? response.packing_defect_status : "-";
                         document.getElementById('packing_defect_type').value = response.packing_defect_type ? response.packing_defect_type : "-";
                         document.getElementById('packing_defect_allocation').value = response.packing_defect_allocation ? response.packing_defect_allocation : "-";
-                        document.getElementById('packing_defect_plan').value = response.tgl_plan_fix ? response.tgl_plan_fix_packing : "-";
+                        document.getElementById('packing_defect_plan').value = response.tgl_plan_fix_packing ? response.tgl_plan_fix_packing : "-";
                         document.getElementById('packing_defect_in').value = response.packing_defect_in ? response.packing_defect_in : "-";
                         document.getElementById('packing_defect_out').value = response.packing_defect_out ? response.packing_defect_out : "-";
                         document.getElementById('packing_external').value = response.packing_external_type ? response.packing_external_type : "-";
