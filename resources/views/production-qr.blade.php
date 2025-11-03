@@ -138,7 +138,7 @@
                 <h5 class="text-sb fw-bold">Output</h5>
                 <div class="col-12 col-md-12">
                     <div class="mb-3">
-                        <label class="form-label"><small><b>Tgl Plan Sewing</b></small></label>
+                        <label class="form-label"><small><b>Tanggal Plan Sewing</b></small></label>
                         <input type="text" class="form-control form-control-sm" name="txttgl_plan_sew" id="txttgl_plan_sew" readonly>
                     </div>
                 </div>
@@ -152,6 +152,12 @@
                     <div class="mb-3">
                         <label class="form-label"><small><b>Sewing In</b></small></label>
                         <input type="text" class="form-control form-control-sm" name="sew_in" id="sew_in" readonly>
+                    </div>
+                </div>
+                <div class="col-12 col-md-12">
+                    <div class="mb-3">
+                        <label class="form-label"><small><b>Tanggal Plan Finishing</b></small></label>
+                        <input type="text" class="form-control form-control-sm" name="txttgl_plan_fin" id="txttgl_plan_fin" readonly>
                     </div>
                 </div>
                 <div class="col-6 col-md-6">
@@ -210,6 +216,12 @@
                             <div class="mb-3">
                                 <label class="form-label"><small><b>Alokasi</b></small></label>
                                 <input type="text" class="form-control form-control-sm" name="defect_allocation" id="defect_allocation" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="mb-3">
+                                <label class="form-label"><small><b>Tanggal Plan</b></small></label>
+                                <input type="text" class="form-control form-control-sm" name="defect_plan" id="defect_plan" readonly>
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -279,6 +291,12 @@
                             <div class="mb-3">
                                 <label class="form-label"><small><b>Alokasi</b></small></label>
                                 <input type="text" class="form-control form-control-sm" name="packing_defect_allocation" id="packing_defect_allocation" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="mb-3">
+                                <label class="form-label"><small><b>Tanggal Plan</b></small></label>
+                                <input type="text" class="form-control form-control-sm" name="packing_defect_plan" id="packing_defect_plan" readonly>
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -388,6 +406,7 @@
                 $("#txtpack").val('');
                 $("#txtws").val('');
                 $("#txttgl_plan_sew").val('');
+                $("#txttgl_plan_fin").val('');
                 $("#sew_in").val('');
                 $("#pack_in").val('');
                 $("#txtpackpo").val('');
@@ -399,6 +418,7 @@
                 $('#defect_status').val('');
                 $('#defect_type').val('');
                 $('#defect_allocation').val('');
+                $('#defect_plan').val('');
                 $('#defect_in').val('');
                 $('#defect_out').val('');
                 $('#external').val('');
@@ -409,6 +429,7 @@
                 $('#packing_defect_status').val('');
                 $('#packing_defect_type').val('');
                 $('#packing_defect_allocation').val('');
+                $('#packing_defect_plan').val('');
                 $('#packing_defect_in').val('');
                 $('#packing_defect_out').val('');
                 $('#packing_external').val('');
@@ -523,6 +544,7 @@
                         document.getElementById('txtsew_line').value = response.sewing_line;
                         document.getElementById('txtpack').value = response.packing_line;
                         document.getElementById('txttgl_plan_sew').value = response.tgl_plan_fix;
+                        document.getElementById('txttgl_plan_fin').value = response.tgl_plan_fin;
                         document.getElementById('sew_in').value = response.sewing_in;
                         document.getElementById('pack_in').value = response.packing_in;
                         document.getElementById('txtpackpo').value = response.packingpo_line;
@@ -532,6 +554,7 @@
                         document.getElementById('txtsew_line').value = response;
                         document.getElementById('txtpack').value = response;
                         document.getElementById('txttgl_plan_sew').value = response;
+                        document.getElementById('txttgl_plan_fin').value = response;
                         document.getElementById('sew_in').value = response;
                         document.getElementById('pack_in').value = response;
                         document.getElementById('txtpackpo').value = response;
@@ -560,6 +583,7 @@
                         document.getElementById('defect_status').value = response.defect_status ? response.defect_status : "-";
                         document.getElementById('defect_type').value = response.defect_type ? response.defect_type : "-";
                         document.getElementById('defect_allocation').value = response.defect_allocation ? response.defect_allocation : "-";
+                        document.getElementById('defect_plan').value = response.tgl_plan_fix ? response.tgl_plan_fix : "-";
                         document.getElementById('defect_in').value = response.defect_in ? response.defect_in : "-";
                         document.getElementById('defect_out').value = response.defect_out ? response.defect_out : "-";
                         document.getElementById('external').value = response.external_type ? response.external_type : "-";
@@ -571,6 +595,7 @@
                         document.getElementById('packing_defect_status').value = response.packing_defect_status ? response.packing_defect_status : "-";
                         document.getElementById('packing_defect_type').value = response.packing_defect_type ? response.packing_defect_type : "-";
                         document.getElementById('packing_defect_allocation').value = response.packing_defect_allocation ? response.packing_defect_allocation : "-";
+                        document.getElementById('packing_defect_plan').value = response.tgl_plan_fix ? response.tgl_plan_fix_packing : "-";
                         document.getElementById('packing_defect_in').value = response.packing_defect_in ? response.packing_defect_in : "-";
                         document.getElementById('packing_defect_out').value = response.packing_defect_out ? response.packing_defect_out : "-";
                         document.getElementById('packing_external').value = response.packing_external_type ? response.packing_external_type : "-";

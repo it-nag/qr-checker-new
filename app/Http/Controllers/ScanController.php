@@ -67,7 +67,7 @@ class ScanController extends Controller
             COALESCE(f.no_form, fr.no_form, fp.no_form) no_form,
             m.dest,
             COALESCE(ll.nama_line, ll_bk.nama_line) line_loading,
-            COALESCE(ll.tanggal_loading, ll_bk.tanggal_loading) tanggal_loading
+            DATE_FORMAT(COALESCE(ll.tanggal_loading, ll_bk.tanggal_loading), '%d-%m-%Y') tanggal_loading
             from (
             select id_year_sequence, form_cut_id, form_reject_id, form_piece_id, so_det_id, id_qr_stocker, number from year_sequence a
             where id_year_sequence = '$qr'
@@ -103,9 +103,10 @@ class ScanController extends Controller
             a.sewing_line,
             b.packing_line,
             packingpo_line,
-            master_plan_id,
-            tgl_plan,
-            DATE_FORMAT(tgl_plan, '%d-%m-%Y') AS tgl_plan_fix,
+            a.master_plan_id,
+            mp.tgl_plan,
+            DATE_FORMAT(mp.tgl_plan, '%d-%m-%Y') AS tgl_plan_fix,
+            DATE_FORMAT(mpf.tgl_plan, '%d-%m-%Y') as tgl_plan_fin,
             sewing_in,
             packing_in,
             packingpo_in,
@@ -117,7 +118,7 @@ class ScanController extends Controller
                     where o.kode_numbering = '".$qr."'
             ) a
             left join (
-                    select kode_numbering,u.username packing_line, o.created_at packing_in
+                    select kode_numbering,u.username packing_line, master_plan_id, o.created_at packing_in
                     from output_rfts_packing o
                     left join userpassword u on o.created_by = u.username
                     where kode_numbering = '".$qr."'
@@ -130,6 +131,7 @@ class ScanController extends Controller
                 where o.kode_numbering = '".$qr."'
             ) c on b.kode_numbering = c.kode_numbering
             left join master_plan mp on a.master_plan_id = mp.id
+            left join master_plan mpf on b.master_plan_id = mpf.id
         ");
         return json_encode($data_sb ? $data_sb[0] : '-');
     }
@@ -185,8 +187,11 @@ class ScanController extends Controller
 
                 -- 📅 Master Plan Info
                 mp.id AS master_plan_id,
+                mpf.id AS master_plan_id_packing,
                 mp.tgl_plan,
-                DATE_FORMAT(mp.tgl_plan, '%d-%m-%Y') AS tgl_plan_fix
+                mpf.tgl_plan_packing,
+                DATE_FORMAT(mp.tgl_plan, '%d-%m-%Y') AS tgl_plan_fix,
+                DATE_FORMAT(mpf.tgl_plan, '%d-%m-%Y') AS tgl_plan_fix_packing
 
             FROM (
                     -- 🔹 Sewing data
@@ -203,6 +208,7 @@ class ScanController extends Controller
                             dio.output_type AS external,
                             dio.created_at AS external_in,
                             dio.reworked_at AS external_out,
+                            o.master_plan_id as plan,
 
                             -- Packing fields NULLed
                             NULL AS packing_line,
@@ -215,9 +221,8 @@ class ScanController extends Controller
                             NULL AS packing_external_type,
                             NULL AS packing_external,
                             NULL AS packing_external_in,
-                            NULL AS packing_external_out,
-
-                            o.master_plan_id
+                            NULL AS packing_external_out
+                            NULL as packing_plan
                     FROM output_defects o
                     LEFT JOIN output_defect_types dt ON dt.id = o.defect_type_id
                     LEFT JOIN output_defect_in_out dio ON dio.defect_id = o.id AND dio.output_type = 'qc'
@@ -241,6 +246,7 @@ class ScanController extends Controller
                             NULL AS external,
                             NULL AS external_in,
                             NULL AS external_out,
+                            NULL AS plan,
 
                             up.username AS packing_line,
                             op.defect_status AS packing_defect_status,
@@ -253,8 +259,7 @@ class ScanController extends Controller
                             diop.output_type AS packing_external,
                             diop.created_at AS packing_external_in,
                             diop.reworked_at AS packing_external_out,
-
-                            op.master_plan_id
+                            op.master_plan_id as packing_plan
                     FROM output_defects_packing op
                     LEFT JOIN output_defect_types dtt ON dtt.id = op.defect_type_id
                     LEFT JOIN output_defect_in_out diop ON diop.defect_id = op.id AND diop.output_type = 'packing'
@@ -262,7 +267,8 @@ class ScanController extends Controller
                     WHERE op.kode_numbering = '".$qr."'
             ) AS merged
 
-            LEFT JOIN master_plan mp ON mp.id = merged.master_plan_id
+            LEFT JOIN master_plan mp ON mp.id = merged.plan
+            LEFT JOIN master_plan mpf ON mpf.id = merged.packing_plan
             GROUP BY merged.kode_numbering
         ");
 
