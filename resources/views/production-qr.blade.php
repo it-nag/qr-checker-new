@@ -566,6 +566,13 @@
                 },
                 error: function(request, status, error) {
                     $('#scan-qr-header').CardWidget('toggle')
+
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Terjadi Kesalahan saat menarik data sewing.',
+                        showConfirmButton: true,
+                        showCancelButton: false,
+                    });
                 },
             });
 
@@ -625,6 +632,13 @@
                 error: function(request, status, error) {
 
                     $('#scan-qr-header').CardWidget('toggle')
+
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Terjadi Kesalahan saat menarik data defect.',
+                        showConfirmButton: true,
+                        showCancelButton: false,
+                    });
                 },
             });
 
@@ -653,6 +667,13 @@
                 error: function(request, status, error) {
 
                     $('#scan-qr-header').CardWidget('toggle')
+
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Terjadi Kesalahan saat menarik data reject.',
+                        showConfirmButton: true,
+                        showCancelButton: false,
+                    });
                 },
             });
 
