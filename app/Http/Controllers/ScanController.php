@@ -42,6 +42,9 @@ class ScanController extends Controller
 
     public function getdataqr(Request $request)
     {
+        ini_set('max_execution_time', 3600);
+        ini_set('memory_limit', '1024M');
+
         $codes = explode("_", $request->txtqr);
 
         if (count($codes) > 2) {
@@ -90,6 +93,9 @@ class ScanController extends Controller
 
     public function getdataqr_sb(Request $request)
     {
+        ini_set('max_execution_time', 3600);
+        ini_set('memory_limit', '1024M');
+
         $codes = explode("_", $request->txtqr);
 
         if (count($codes) > 2) {
@@ -138,6 +144,9 @@ class ScanController extends Controller
 
     public function getdataqr_gambar(Request $request)
     {
+        ini_set('max_execution_time', 3600);
+        ini_set('memory_limit', '1024M');
+
         $id = $request->id;
         $data_gambar = DB::connection('mysql_sb')->select("
             select gambar from master_plan where id = '$id'
@@ -147,6 +156,9 @@ class ScanController extends Controller
 
     public function getdataqr_defect(Request $request)
     {
+        ini_set('max_execution_time', 3600);
+        ini_set('memory_limit', '1024M');
+
         $codes = explode("_", $request->txtqr);
 
         if (count($codes) > 2) {
@@ -277,6 +289,9 @@ class ScanController extends Controller
 
     public function getdataqr_reject(Request $request)
     {
+        ini_set('max_execution_time', 3600);
+        ini_set('memory_limit', '1024M');
+
         $codes = explode("_", $request->txtqr);
 
         if (count($codes) > 2) {
